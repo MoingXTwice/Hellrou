@@ -41,3 +41,18 @@ def like_list():
         like_list = list(db.post.find({'post_id': int(like_id)}, {'_id': False}))
 
     return jsonify({"like_list" : like_list})
+
+@mypage_bp.route('/del_post', methods=['GET'])
+def del_post():
+    post_id = request.args.get('post_id')
+    db.post.delete_one({'post_id' : int(post_id)})
+    return jsonify({'msg' : '등록한 운동이 삭제되었습니다'})
+
+@mypage_bp.route('/del_like', methods=['GET'])
+def del_like():
+    post_id = request.args.get('post_id')
+    user_id = request.args.get('user_id')
+
+    db.user.update_one({'user_id' : user_id}, {'$pull':{'like_id' : int(post_id)}})
+
+    return jsonify({'msg' : '스크랩한운동이 삭제되었습니다'})
