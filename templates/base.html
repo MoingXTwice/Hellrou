@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>헬스루틴 헬루</title>
+
+        <link rel="stylesheet" type="text/css" href="../static/css/base.css?v=time()">
+        {% block css %}
+        {% endblock %}
+        <!-- Optional JavaScript -->
+        <!-- jQuery first -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        {% block script %}
+        {% endblock %}
+
+    </head>
+    <body>
+        <nav>
+            <div class="inner">
+                <div class="top_menu">
+                    <div class="img_box">
+                        <img src="../static/img/logo.png" style="cursor:pointer;" onclick="location.href=('/');">
+                    </div>
+                    <div class="btn">나의 헬루</div>
+                    <div class="btn">헬루 등록</div>
+                </div>
+                <div class="login_box">
+                    <div class="btn">로그인</div>
+                </div>
+            </div>
+        </nav>
+        {% block contents %}
+        {% endblock %}
+    </body>
+</html>
