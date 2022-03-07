@@ -20,6 +20,7 @@ db = client.hellrou
 @app.route('/')
 def home():
     all_post = list(db.post.find({}, {'_id': False}))
+    print(all_post)
     return render_template('main.html')
 
 if __name__ == '__main__':
