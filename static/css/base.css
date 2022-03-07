@@ -1,8 +1,10 @@
+
 * {
     box-sizing: border-box;
     color: #212121;
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: Gmarket Sans;
     outline: none;
+
 }
 
 body {
@@ -31,7 +33,7 @@ ul {
 
 nav {
     height: 150px;
-    border-bottom : 1px solid #212121
+    border-bottom : 2px solid #53535e
 }
 
 nav:after {
@@ -41,6 +43,7 @@ nav:after {
 }
 
 .inner {
+    width: 95%;
     max-width: 1200px !important;
     margin: 0 auto !important;
 }
@@ -48,8 +51,8 @@ nav:after {
     text-align: center;
 }
 .img_box{
-    width: 149px;
-    height: 149px;
+    width: 145px;
+    height: 145px;
     float: left;
 }
 .img_box > img {
@@ -59,21 +62,16 @@ nav:after {
 .top_menu .btn{
     display:inline-block;
     float: left;
-    padding-top: 100px;
+    padding-top: 110px;
+    margin : 0 30px;
+    color : #53535e;
+    font-size: 17px;
+    font-weight: bold;
 }
 .login_box .btn{
     float: right;
-    padding-top: 100px;
+    padding-top: 110px;
+    color : #53535e;
+    font-size: 17px;
+    font-weight: bold;
 }
-
-.card_wrap{
-    width : 100%;
-}
-.card_wrap .card{
-    display: inline-block;
-    width: 20%;
-    height: 550px;
-    margin: 20px 28px;
-    border : 2px solid #53535e;
-    border-radius: 15px;
-    text-align: center;
