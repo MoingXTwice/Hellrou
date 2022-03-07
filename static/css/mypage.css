@@ -11,7 +11,6 @@
 
 .mypage_wrap{
     width : 100%;
-
     display: flex;
     justify-content: center;
     margin : auto;
@@ -39,6 +38,7 @@
     cursor : pointer;
     text-align : center;
     border : 0px;
+
 }
 .tab_title li.tab_on{
     color : #708691;
