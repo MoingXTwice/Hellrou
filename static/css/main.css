@@ -1,0 +1,68 @@
+
+* {
+    box-sizing: border-box;
+    color: #212121;
+    font-family: 'Nanum Gothic', sans-serif;
+    outline: none;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 13px;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+}
+
+nav {
+    height: 150px;
+    border-bottom : 1px solid #212121
+}
+
+nav:after {
+    clear: both;
+    content: '';
+    display: block;
+}
+
+.inner {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+.top_menu {
+    text-align: center;
+}
+.img_box{
+    width: 149px;
+    height: 149px;
+    float: left;
+}
+.img_box > img {
+    width: 100%;
+    height: 100%;
+}
+.top_menu .btn{
+    display:inline-block;
+    float: left;
+    padding-top: 100px;
+}
+.login_box .btn{
+    float: right;
+    padding-top: 100px;
+}
