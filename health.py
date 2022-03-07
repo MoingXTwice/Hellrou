@@ -13,24 +13,24 @@ mongo_host = os.getenv('MONGODB_HOST')
 client = MongoClient(mongo_host, tlsCAFile=certifi.where())
 db = client.hellrou
 
-bp = Blueprint('health', __name__, url_prefix='/health')
+health_bp = Blueprint('health', __name__)
 
 KST = pytz.timezone('Asia/Seoul')
 
-@bp.route('')
+@health_bp.route('')
 def view():
     return 'view'
 
 # 헬루 등록 페이지
-@bp.route('/post')
+@health_bp.route('/post')
 def post():
     return render_template('post.html')
 
-@bp.route('/post', methods=['POST'])
+@health_bp.route('/post', methods=['POST'])
 def post_api():
 
     # 글 번호 1씩 증가
-    posts = list(db.post.find({}, {'_id':False}))
+    posts = list(db.post.find({}, {'_id': False}))
     post_id = len(posts) + 1
 
     #TODO poster_id 값 가져오기
@@ -45,8 +45,9 @@ def post_api():
     day5 = request.form['day5']
     day6 = request.form['day6']
     day7 = request.form['day7']
-    # 날짜를 Date 타입으로? String 타입으로?
-    write_time = datetime.now(KST)
+    # %Y가 이상하게 출력됨
+    write_time = datetime.now(KST).strftime('%Y-%m-%D %H:%M:%S')
+    print(write_time)
 
     doc = {
         'post_id': post_id,
