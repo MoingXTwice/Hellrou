@@ -1,4 +1,3 @@
-
 * {
     box-sizing: border-box;
     color: #212121;
@@ -66,3 +65,15 @@ nav:after {
     float: right;
     padding-top: 100px;
 }
+
+.card_wrap{
+    width : 100%;
+}
+.card_wrap .card{
+    display: inline-block;
+    width: 20%;
+    height: 550px;
+    margin: 20px 28px;
+    border : 2px solid #53535e;
+    border-radius: 15px;
+    text-align: center;
