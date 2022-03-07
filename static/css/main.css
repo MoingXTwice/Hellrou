@@ -1,76 +1,12 @@
-
-* {
-    box-sizing: border-box;
-    color: #212121;
-    font-family: Gmarket Sans;
-    outline: none;
-
+.card_wrap{
+    width : 100%;
 }
-
-body {
-    padding: 0;
-    margin: 0;
-}
-
-html {
-    font-size: 13px;
-}
-
-a {
-    text-decoration: none;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.logo {
-    width: 100px;
-    height: 100px;
-}
-
-nav {
-    height: 150px;
-    border-bottom : 2px solid #53535e
-}
-
-nav:after {
-    clear: both;
-    content: '';
-    display: block;
-}
-
-.inner {
-    width: 95%;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-}
-.top_menu {
+.card_wrap .card{
+    display: inline-block;
+    width: 20%;
+    height: 550px;
+    margin: 20px 28px;
+    border : 2px solid #53535e;
+    border-radius: 15px;
     text-align: center;
-}
-.img_box{
-    width: 145px;
-    height: 145px;
-    float: left;
-}
-.img_box > img {
-    width: 100%;
-    height: 100%;
-}
-.top_menu .btn{
-    display:inline-block;
-    float: left;
-    padding-top: 110px;
-    color : #53535e;
-    font-size: 17px;
-    font-weight: bold;
-}
-.login_box .btn{
-    float: right;
-    padding-top: 110px;
-    color : #53535e;
-    font-size: 17px;
-    font-weight: bold;
 }
