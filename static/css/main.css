@@ -1,0 +1,54 @@
+
+* {
+    box-sizing: border-box;
+    color: #212121;
+    font-family: 'Nanum Gothic', sans-serif;
+    outline: none;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 13px;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+}
+
+nav {
+    height: 30px;
+}
+
+nav > .top_menu {
+    float: left
+}
+
+nav > .login {
+    float: right
+}
+
+nav:after {
+    clear: both;
+    content: '';
+    display: block;
+}
+
+.inner {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
