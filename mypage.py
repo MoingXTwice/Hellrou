@@ -1,14 +1,16 @@
-from flask import Flask, Blueprint, render_template, jsonify, request
+from flask import Flask, Blueprint, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
 import os
 import certifi
+import jwt
 
 app = Flask(__name__)
 
 # 환경변수 값 불러오기
 load_dotenv()
+secret_key = os.getenv('SECRET_KEY')
 
 # DB Configure
 mongo_host = os.getenv('MONGODB_HOST')
@@ -20,15 +22,24 @@ mypage_bp = Blueprint('mypage', __name__)
 
 @mypage_bp.route('/')
 def mypage():
-    user_id = 'test'
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, secret_key, algorithms=['HS256'])
+        user_id = payload['id']
+    except:
+        return redirect(url_for('user.login'))
+
     post_list = list(db.post.find({'poster_id' : user_id}, {'_id' : False}))
     user_info = db.user.find_one({'user_id' : user_id}, {'_id' : False})
     like_id = user_info['like_id']
 
-    if isinstance(like_id, list):
-        like_list = list(db.post.find({'post_id' : {'$in' : like_id}}, {'_id' : False}))
+    if like_id:
+        if isinstance(like_id, list):
+            like_list = list(db.post.find({'post_id': {'$in': like_id}}, {'_id': False}))
+        else:
+            like_list = list(db.post.find({'post_id': int(like_id)}, {'_id': False}))
     else:
-        like_list = list(db.post.find({'post_id': int(like_id)}, {'_id': False}))
+        return render_template('mypage.html', post_list = post_list, user_info=user_info)
 
     return render_template('mypage.html', post_list = post_list, like_list = like_list, user_info=user_info)
 
