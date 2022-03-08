@@ -42,7 +42,7 @@ def detail_view():
         # 공유된 헬루(내가 쓴 헬루 포함)
         #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
         else:
-            find_post = db.post.find_one({'post_id': int(post_id)})
+            find_post = db.post.find_one({'post_id': post_id})
             return render_template('health.html', health=find_post)
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
