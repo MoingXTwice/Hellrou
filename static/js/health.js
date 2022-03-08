@@ -55,6 +55,17 @@ function share_cancel(post_id) {
         }
     })
 }
+function scrap(post_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/health/scrap?post_id=' + post_id,
+        data: {'post_id': post_id},
+        success: function (response) {
+            console.log(response)
+            window.location.reload()
+        }
+    })
+}
 
 // function del_like(post_id, user_id){ // 스크랩 삭제
 //     if(window.confirm("한번 삭제하면 되돌릴수 없습니다. 그래도 삭제하시겠습니까?")){

@@ -33,11 +33,8 @@ def detail_view():
         # 나의 헬루
         if post_id is None:
             user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
-            print(user_id)
             user_sel = db.user.find_one({'user_id': user_id})['sel_id']
-            print(user_sel)
             find_post = db.post.find_one({'post_id': user_sel})
-            print(find_post)
             return render_template('health.html', health=find_post, user_sel=user_sel)
         # 공유된 헬루(내가 쓴 헬루 포함)
         #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
@@ -50,7 +47,6 @@ def detail_view():
 
 
 # # 나의 헬루 페이지
-# #TODO JWT가 완성이 되면 "나의 헬루"를 클릭하면 user_id를 받아와서 path variable로 넘겨야함?
 # @health_bp.route('/<user_id>', methods=['GET'])
 # def my_health(user_id):
 #     user_sel = db.user.find_one({'user_id': 'kimbs'})['sel_id']
@@ -116,9 +112,7 @@ def share():
     token_receive = request.cookies.get('mytoken')
     try:
         user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
-        print(user_id)
         post_id = request.form['post_id']
-        print(post_id)
         db.post.update_one({'post_id': post_id}, {'$set': {'status': True}})
         return jsonify({'result': 'success'})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
@@ -130,11 +124,20 @@ def share_cancel():
     token_receive = request.cookies.get('mytoken')
     try:
         user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
-        print(user_id)
         post_id = request.form['post_id']
-        print(post_id)
         db.post.update_one({'post_id': post_id}, {'$set': {'status': False}})
         return jsonify({'result': 'success'})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 
+# 스크랩 기능
+@health_bp.route('/scrap', methods=['POST'])
+def scrap():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        post_id = request.form['post_id']
+        db.user.update_one({'user_id': user_id}, {'$push': {'like_id': post_id}})
+        return jsonify({'result': 'success'})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
