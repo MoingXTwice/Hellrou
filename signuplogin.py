@@ -103,7 +103,7 @@ def api_login():
             'id': id_receive,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         # token을 줍니다.
         return jsonify({'result': 'success', 'token': token})
