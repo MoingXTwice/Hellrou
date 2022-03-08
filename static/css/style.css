@@ -1,0 +1,154 @@
+* {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.loginMain {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.loginBox {
+    padding: 30px 40px 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #909090;
+    border-radius: 20px;
+    box-shadow: 1px 2px 2px lightgray;
+
+}
+
+.loginBox > h1 {
+    color: #363636;
+    font-size: 40px;
+    margin-bottom: 15px;
+
+}
+
+.inputBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.inputBox > input {
+    margin-bottom: 10px;
+    border-width: 0 0 1px 0;
+
+}
+
+.btnLogIn {
+    background: #C4C4C4;
+    border: 1px solid #C4C4C4;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 70px;
+
+}
+
+.btnLogIn:hover {
+    background: #9a9a9a;
+    border: 1px solid #9a9a9a;
+}
+
+.btnLogIn > p {
+    color: white;
+    font-size: 20px;
+    margin: 0;
+    /*line-height: 20px;*/
+
+}
+
+.btnSignUpGo:hover {
+    cursor: pointer;
+    background: none;
+    font-weight: bold;
+
+}
+.btnSignUpGo > p {
+    color: #4E4E4E;
+    font-size: 20px;
+    margin: 0;
+    /*line-height: 20px;*/
+}
+
+.signUpMain {
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.signUpBox {
+    padding: 30px 40px 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #909090;
+    border-radius: 20px;
+    box-shadow: 1px 2px 2px lightgray;
+
+}
+
+.signUpBox > h1 {
+    color: #363636;
+    font-size: 40px;
+    margin-bottom: 15px;
+
+}
+
+.btnSignUp {
+    background: #C4C4C4;
+    border: 1px solid #C4C4C4;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 70px;
+
+}
+
+.btnSignUp:hover {
+    background: #9a9a9a;
+    border: 1px solid #9a9a9a;
+}
+
+.btnSignUp > p {
+    color: white;
+    font-size: 20px;
+    margin: 0;
+    /*line-height: 20px;*/
+
+}
+
+.creatBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.creatBox > p {
+    margin-bottom: 0;
+    /*margin-right: 110px;*/
+
+}
+
+.creatBox > input {
+    margin-bottom: 10px;
+    border-width: 0 0 1px 0;
+
+}
