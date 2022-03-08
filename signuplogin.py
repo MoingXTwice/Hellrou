@@ -73,7 +73,7 @@ def api_signup():
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
     selprgm_receive = request.form['selprgm_give']
-    scrprgm_receive = request.form['scrprgm_give']
+    [] = request.form['scrprgm_give']
 
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
@@ -83,7 +83,7 @@ def api_signup():
          'password': pw_hash,
          'nick': nickname_receive,
          'sel_id': selprgm_receive,
-         'like_id': scrprgm_receive}
+         'like_id': []}
     )
 
     return jsonify({'result': 'success'})
