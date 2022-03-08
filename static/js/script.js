@@ -7,7 +7,9 @@ function signup() {
         data: {
             id_give: $('#user_id').val(),
             pw_give: $('#password').val(),
-            nickname_give: $('#nick').val()
+            nickname_give: $('#nick').val(),
+            selprgm_give: $('#sel_program').val(),
+            scrprgm_give: $('#scr_program').val()
         },
         success: function (response) {
             if (response['result'] == 'success') {
