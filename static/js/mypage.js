@@ -76,7 +76,6 @@ function del_post(post_id){ // 등록한 포스트 삭제
                 window.location.reload()
             }
         })
-    } else {
     }
 }
 
@@ -91,6 +90,5 @@ function del_like(post_id, user_id){ // 스크랩 삭제
                 window.location.reload()
             }
         })
-    } else {
     }
 }

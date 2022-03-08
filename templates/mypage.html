@@ -4,9 +4,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 {% endblock %}
 {% block script %}
-    <script src="../static/js/mypage.js"></script>
     <script>
-        const user_id = 'test'
         $(document).ready(function () {
             $(".tab_title li").click(function () {
                 var idx = $(this).index();
@@ -15,8 +13,6 @@
                 $(".tab_cont > div").hide();
                 $(".tab_cont > div").eq(idx).show();
             })
-
-            mypage_list();
         });
     </script>
 
@@ -35,8 +31,33 @@
             <div class="mypage_contents">
                 <div class="tab_cont">
                     <div class="on" id="mypage-list">
+                        {% for post in post_list %}
+                         <div class="list_rows">
+                                <span class="list_title">{{ post.title }}</span>
+                                <span class="list_desc">{{ post.desc }}</span>
+                                <span class="list_likes">{{ post.likes }}</span>
+                                <span class="list_date">{{ post.datetime }}</span>
+                                <span class="list_func">
+                                    <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
+                                    <button class="btn btn-danger" onclick="del_post({{ post.post_id }})">삭제</button>
+                                </span>
+                         </div>
+                        {% endfor %}
                     </div>
                     <div id="like-list">
+                        {% for like in like_list %}
+                        <div class="list_rows">
+                            <span class="list_title">{{ like.title }}</span>
+                            <span class="list_desc">{{ like.desc}}</span>
+                            <span class="list_likes">{{ like.likes }}</span>
+                            <span class="list_date">{{ like.datetime }}</span>
+                            <span class="list_func">
+                                    <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
+                                    <button class="btn btn-danger"
+                                            onclick="del_like({{ like.post_id }}, {{ like.poster_id }})">삭제</button>
+                                </span>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
