@@ -33,9 +33,3 @@ function get_all_post(){
         }
     })
 }
-function isLogin(){
-
-}
-function go(href){
-
-}

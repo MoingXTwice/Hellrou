@@ -18,6 +18,7 @@ client = MongoClient(mongo_host, tlsCAFile=certifi.where())
 
 db = client.hellrou
 
+
 #Blueprint 선언
 app.register_blueprint(mypage_bp, url_prefix='/mypage')
 
