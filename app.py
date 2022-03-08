@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 # 환경변수 값 불러오기
 load_dotenv()
+app.secret_key = os.getenv('SECRET_KEY')
 
 # DB Configure
 mongo_host = os.getenv('MONGODB_HOST')
