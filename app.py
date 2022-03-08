@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 import os
 import certifi
+import jwt
 import hashlib
 
 from health import health_bp
@@ -30,12 +31,13 @@ app.register_blueprint(user_bp, url_prefix='/user')
 
 @app.route('/')
 def home():
-    user_id = request.args.get('user_id')
-    if user_id :
+    token_receive = request.cookies.get('mytoken')
+
+    if token_receive :
         isLogin = True
     else :
         isLogin = False
-    print(isLogin)
+
     return render_template('main.html', isLogin=isLogin)
 
 @app.route('/view_list', methods=['GET'])
