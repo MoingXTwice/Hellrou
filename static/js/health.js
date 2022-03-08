@@ -67,16 +67,14 @@ function scrap(post_id) {
     })
 }
 
-// function del_like(post_id, user_id){ // 스크랩 삭제
-//     if(window.confirm("한번 삭제하면 되돌릴수 없습니다. 그래도 삭제하시겠습니까?")){
-//         $.ajax({
-//             type : 'GET',
-//             url : '/mypage/del_like?post_id='+post_id+'&user_id='+user_id,
-//             data : {},
-//             success : function(response){
-//                 alert(response['msg'])
-//                 window.location.reload()
-//             }
-//         })
-//     }
-// }
+function select(post_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/health/select?post_id=' + post_id,
+        data: {'post_id': post_id},
+        success: function (response) {
+            console.log(response)
+            window.location.reload()
+        }
+    })
+}

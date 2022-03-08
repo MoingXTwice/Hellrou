@@ -141,3 +141,16 @@ def scrap():
         return jsonify({'result': 'success'})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
+
+
+# 선택 기능
+@health_bp.route('/select', methods=['POST'])
+def select():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        post_id = request.form['post_id']
+        db.user.update_one({'user_id': user_id}, {'$set': {'sel_id': post_id}})
+        return jsonify({'result': 'success'})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
