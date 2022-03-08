@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify, request, redirect
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 import pytz
 from dotenv import load_dotenv
+import jwt
+import uuid
 
 import os
 import certifi
@@ -13,18 +15,38 @@ mongo_host = os.getenv('MONGODB_HOST')
 client = MongoClient(mongo_host, tlsCAFile=certifi.where())
 db = client.hellrou
 
+SECRET_KEY = os.getenv('SECRET_KEY')
+
 health_bp = Blueprint('health', __name__)
 
 #한국 시간 설정
 KST = pytz.timezone('Asia/Seoul')
 
 # 모든 회원의 상세 보기 페이지
+# 이 페이지의 역할 - 1.나의 루틴 클릭시 나의 sel_id 가져오기
+#                2.공유된 것 클릭시 post_id 가져오기
 @health_bp.route('', methods=['GET'])
 def detail_view():
-    post_id = request.args.get('post_id')
-    find_post = db.post.find_one({'post_id': int(post_id)})
-    print(find_post)
-    return render_template('detail_view.html', health=find_post)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        post_id = request.args.get('post_id')
+        # 나의 헬루
+        if post_id is None:
+            user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+            print(user_id)
+            user_sel = db.user.find_one({'user_id': user_id})['sel_id']
+            print(user_sel)
+            find_post = db.post.find_one({'post_id': user_sel})
+            print(find_post)
+            return render_template('health.html', health=find_post, user_sel=user_sel)
+        # 공유된 헬루(내가 쓴 헬루 포함)
+        #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
+        else:
+            find_post = db.post.find_one({'post_id': int(post_id)})
+            return render_template('health.html', health=find_post)
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
+
 
 # # 나의 헬루 페이지
 # #TODO JWT가 완성이 되면 "나의 헬루"를 클릭하면 user_id를 받아와서 path variable로 넘겨야함?
@@ -42,48 +64,48 @@ def post():
 # 헬루 등록 api
 @health_bp.route('/post', methods=['POST'])
 def post_api():
+    token_receive = request.cookies.get('mytoken')
 
-    #TODO 이 방법은 글 삭제가 되면 삭제된 번호에 글이 다시 들어갈 수 있음
-    # auto increment 를 찾아보고 안되면 uuid로 대체
-    posts = list(db.post.find({}, {'_id': False}))
-    post_id = len(posts) + 1
+    try:
+        # poster_id 값 가져오기
+        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
 
+        title = request.form['title']
+        desc = request.form['desc']
+        process = request.form['process']
+        day1 = request.form['day1']
+        day2 = request.form['day2']
+        day3 = request.form['day3']
+        day4 = request.form['day4']
+        day5 = request.form['day5']
+        day6 = request.form['day6']
+        day7 = request.form['day7']
+        write_time = datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S')
 
-    #TODO poster_id 값 가져오기
+        doc = {
+            'post_id': uuid.uuid4().hex,
+            'poster_id': user_id,
+            'title': title,
+            'desc': desc,
+            'process': process,
+            'day1': day1,
+            'day2': day2,
+            'day3': day3,
+            'day4': day4,
+            'day5': day5,
+            'day6': day6,
+            'day7': day7,
+            'status': False,
+            'datetime': write_time,
+            'likes': 0
+        }
+        db.post.insert_one(doc)
 
-    title = request.form['title']
-    desc = request.form['desc']
-    process = request.form['process']
-    day1 = request.form['day1']
-    day2 = request.form['day2']
-    day3 = request.form['day3']
-    day4 = request.form['day4']
-    day5 = request.form['day5']
-    day6 = request.form['day6']
-    day7 = request.form['day7']
-    write_time = datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S')
+        return jsonify({'result': 'success', 'msg': '헬루 등록이 완료되었습니다.'})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
 
-    doc = {
-        'post_id': post_id,
-        'poster_id': 'kimbs',
-        'title': title,
-        'desc': desc,
-        'process': process,
-        'day1': day1,
-        'day2': day2,
-        'day3': day3,
-        'day4': day4,
-        'day5': day5,
-        'day6': day6,
-        'day7': day7,
-        'status': False,
-        'datetime': write_time,
-        'likes': 0
-    }
-    db.post.insert_one(doc)
-
-    return jsonify({'result': 'success', 'msg': '헬루 등록이 완료되었습니다.'})
-
+# 공유 기능
 @health_bp.route('/share', methods=['POST'])
 def share():
 
