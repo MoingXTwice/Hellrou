@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, redirect
+from flask import Blueprint, render_template, jsonify, request, redirect, flash
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 import pytz
@@ -42,9 +42,10 @@ def detail_view():
         # 공유된 헬루(내가 쓴 헬루 포함)
         #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
         else:
-            find_post = db.post.find_one({'post_id': int(post_id)})
+            find_post = db.post.find_one({'post_id': post_id})
             return render_template('health.html', health=find_post)
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        flash('로그인 후 이용 가능합니다.')
         return redirect('/user/login')
 
 
@@ -59,6 +60,8 @@ def detail_view():
 # 헬루 등록 페이지
 @health_bp.route('/post')
 def post():
+    token_receive = request.cookies.get('mytoken')
+
     return render_template('post.html')
 
 # 헬루 등록 api
@@ -105,14 +108,33 @@ def post_api():
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 
+#TODO 공유기능을 같이 묶을 수 있지 않을까?
+#일단 기능 구현 먼저 해두고 리팩토링 -> status 값을 가져와야 하나?
 # 공유 기능
 @health_bp.route('/share', methods=['POST'])
 def share():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        print(user_id)
+        post_id = request.form['post_id']
+        print(post_id)
+        db.post.update_one({'post_id': post_id}, {'$set': {'status': True}})
+        return jsonify({'result': 'success'})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
 
-    return jsonify({'result': 'success'})
+# 공유 취소 기능
+@health_bp.route('/share_cancel', methods=['POST'])
+def share_cancel():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        print(user_id)
+        post_id = request.form['post_id']
+        print(post_id)
+        db.post.update_one({'post_id': post_id}, {'$set': {'status': False}})
+        return jsonify({'result': 'success'})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
 
-# @app.route("/bucket/done", methods=["POST"])
-# def bucket_done():
-#     id_receive = request.form['id_give']
-#     db.bucket.update_one({'id':int(id_receive)},{'$set':{'done':1}})
-#     return jsonify({'msg': 'POST(완료) 연결 완료!'})
