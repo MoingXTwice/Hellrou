@@ -8,7 +8,7 @@ function get_all_post(){
         url: '/view_list' ,
         data: {},
         success: function (response) {
-            console.log(response)
+            //console.log(response)
             let rows = response['post_list']
             for (let i = 0; i < rows.length; i++) {
                 let title = rows[i]['title']
