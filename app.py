@@ -33,7 +33,7 @@ app.register_blueprint(user_bp, url_prefix='/user')
 def authenticate():
     token_receive = request.cookies.get('mytoken')
     if token_receive:
-        payload = jwt.decode(token_receive, app.secret_key, algorithms=['HS256'])
+        payload = jwt.decode(token_receive, app.secret_key, algorithms=["HS256"])
         g.user_id = payload['id']
         g.auth = True
     else:
@@ -45,18 +45,28 @@ def home():
 
 @app.route('/view_list', methods=['GET'])
 def view_list():
+    post_list = list(db.post.find({'status':True},{'_id': False}))
+    print(post_list)
+    return jsonify({"post_list" : post_list})
+
+@app.route('/search', methods=['GET'])
+def search():
     type = request.args.get('type')
     #cate = request.args.get('cate')
     txt = request.args.get('txt')
-
+    print(type)
+    print(txt)
     if type=='title' : #title 검색시 like 조건문
-        post_list = list(db.post.find({'title' : {'$regex': txt}}, {'_id': False}))
+        print('title')
+        post_list = list(db.post.find({'$and' : [{'title' : {'$regex': txt} },{'status' : True} ]}, {'_id': False}))
     elif type=='poster_id' : #작성자 검색시 equal 조건문
-        post_list = list(db.post.find({'poster_id': txt}, {'_id': False}))
+        print('poster_id')
+        post_list = list(db.post.find({'$and' : [{'poster_id': txt},{'status' : True} ]}, {'_id': False}))
     else :
-        post_list = list(db.post.find({},{'_id': False}))
+        post_list = list(db.post.find({'status':True},{'_id': False}))
 
-    return jsonify({"post_list" : post_list})
+    #return jsonify({"post_list" : post_list})
+    return render_template('view.html', post_list=post_list)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

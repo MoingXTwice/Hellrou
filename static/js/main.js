@@ -10,7 +10,6 @@ function get_all_post(){
         success: function (response) {
             console.log(response)
             let rows = response['post_list']
-
             for (let i = 0; i < rows.length; i++) {
                 let title = rows[i]['title']
                 let desc = rows[i]['desc']
