@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="../static/css/mypage.css">
+{% endblock %}
+{% block script %}
+    <script src="../static/js/mypage.js?v=time()"></script>
+{% endblock %}
+
+{% block contents %}
+    <div class="mypage_wrap">
+        <div class="mypage_container">
+            <div class="mypage_nav">
+                <p class="category">Categories</p>
+                <ul class="tab_title">
+                    <li class="tab_on">내가 등록한 헬루</li>
+                    <li onclick="javascript:like_list()">스크랩한 헬루</li>
+                </ul>
+            </div>
+            <div class="mypage_contents">
+                <div class="tab_cont">
+                    <div class="on" id="mypage-list">
+                    </div>
+                    <div id="like-list">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
