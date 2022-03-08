@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, jsonify, request
+from flask import Flask, Blueprint, render_template, jsonify, request, redirect, url_for
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -20,13 +20,14 @@ db = client.hellrou
 #Blueprint
 mypage_bp = Blueprint('mypage', __name__)
 
-
-
 @mypage_bp.route('/')
 def mypage():
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, secret_key, algorithms=['HS256'])
-    user_id = payload['id']
+    try:
+        token_receive = request.cookies.get('mytoken')
+        payload = jwt.decode(token_receive, secret_key, algorithms=['HS256'])
+        user_id = payload['id']
+    except:
+        return redirect(url_for('user.login'))
 
     post_list = list(db.post.find({'poster_id' : user_id}, {'_id' : False}))
     user_info = db.user.find_one({'user_id' : user_id}, {'_id' : False})

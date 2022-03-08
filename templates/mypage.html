@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="../static/css/mypage.css">
@@ -6,6 +7,7 @@
 {% block script %}
     <script>
         $(document).ready(function () {
+
             $(".tab_cont > div").hide();
             $("#mypage-list").show();
             $(".tab_title li").click(function () {
@@ -19,7 +21,6 @@
         });
     </script>
 {% endblock %}
-
 {% block contents %}
     <div class="mypage_wrap">
         <div class="mypage_container">
