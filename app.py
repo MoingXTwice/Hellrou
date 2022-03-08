@@ -41,27 +41,23 @@ def authenticate():
 
 @app.route('/')
 def home():
-    return render_template('main.html', isLogin=g.auth)
-
-@app.route('/view_list', methods=['GET'])
-def view_list():
-    post_list = list(db.post.find({'status':True},{'_id': False}))
-    return jsonify({"post_list" : post_list})
-
-@app.route('/search')
-def search():
     type = request.args.get('type')
-    #cate = request.args.get('cate')
+    # cate = request.args.get('cate')
     txt = request.args.get('txt')
-    if type=='title' : #title 검색시 like 조건문
-        post_list = list(db.post.find({'$and' : [{'title' : {'$regex': txt} },{'status' : True} ]}, {'_id': False}))
-    elif type=='poster_id' : #작성자 검색시 equal 조건문
-        post_list = list(db.post.find({'$and' : [{'poster_id': txt},{'status' : True} ]}, {'_id': False}))
-    else :
-        post_list = list(db.post.find({'status':True},{'_id': False}))
 
-    #return jsonify({"post_list" : post_list})
-    return render_template('view.html', post_list=post_list, isLogin=g.auth)
+    if type == 'title':  # title 검색시 like 조건문
+        post_list = list(db.post.find({'$and': [{'title': {'$regex': txt}}, {'status': True}]}, {'_id': False}))
+    elif type == 'poster_id':  # 작성자 검색시 equal 조건문
+        post_list = list(db.post.find({'$and': [{'poster_id': txt}, {'status': True}]}, {'_id': False}))
+    else:
+        post_list = list(db.post.find({'status': True}, {'_id': False}))
+
+    return render_template('view.html', post_list = post_list, isLogin=g.auth)
+
+# @app.route('/view_list', methods=['GET'])
+# def view_list():
+#     post_list = list(db.post.find({'status':True},{'_id': False}))
+#     return jsonify({"post_list" : post_list})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

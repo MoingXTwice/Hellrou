@@ -7,7 +7,7 @@ $(document).ready(function () {
             alert("작성자로 검색하시려면 검색어를 입력해주세요")
             return
         }
-        let tmp_url = "/search?type="+type+"&cate="+cate+"&txt="+txt
+        let tmp_url = "./?type="+type+"&cate="+cate+"&txt="+txt
         //alert(tmp_url)
         location.href=tmp_url
     })
