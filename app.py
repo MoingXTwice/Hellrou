@@ -29,11 +29,11 @@ app.register_blueprint(health_bp, url_prefix='/health')
 app.register_blueprint(mypage_bp, url_prefix='/mypage')
 app.register_blueprint(user_bp, url_prefix='/user')
 
-@app.before_request
+@app.before_request #로그인 여부 및 쿠키내 아이디 추출 전역함수
 def authenticate():
-    token_receive = request.cookies.get('mytoken')
+    token_receive = request.cookies.get('mytoken') #로그인으로 설정된 쿠키값 저장
     if token_receive:
-        payload = jwt.decode(token_receive, app.secret_key, algorithms=["HS256"])
+        payload = jwt.decode(token_receive, app.secret_key, algorithms=["HS256"]) #쿠키값 복호화
         g.user_id = payload['id']
         g.auth = True
     else:
