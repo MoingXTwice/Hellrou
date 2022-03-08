@@ -72,10 +72,19 @@ def api_signup():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
+    selprgm_receive = request.form['selprgm_give']
+    [] = request.form['scrprgm_give']
+
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
-    db.user.insert_one({'user_id': id_receive, 'password': pw_hash, 'nick': nickname_receive})
+    db.user.insert_one(
+        {'user_id': id_receive,
+         'password': pw_hash,
+         'nick': nickname_receive,
+         'sel_id': selprgm_receive,
+         'like_id': []}
+    )
 
     return jsonify({'result': 'success'})
 
@@ -131,7 +140,7 @@ def api_valid():
 
         # payload 안에 id가 들어있습니다. 이 id로 유저정보를 찾습니다.
         # 여기에선 그 예로 닉네임을 보내주겠습니다.
-        userinfo = db.user.find_one({'id': payload['id']}, {'_id': 0})
+        userinfo = db.user.find_one({'user_id': payload['id']}, {'_id': 0})
         return jsonify({'result': 'success', 'nickname': userinfo['nick']})
     except jwt.ExpiredSignatureError:
         # 위를 실행했는데 만료시간이 지났으면 에러가 납니다.
