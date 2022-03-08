@@ -9,7 +9,7 @@ from health import health_bp
 from mypage import mypage_bp
 
 app = Flask(__name__)
-# app.config["TEMPLATES_AUTO_RELOAD"] = True
+#app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # 환경변수 값 불러오기
 load_dotenv()
@@ -29,13 +29,20 @@ app.register_blueprint(mypage_bp, url_prefix='/mypage')
 def home():
     return render_template('main.html')
 
-@app.route('/all_list', methods=['GET'])
-def all_list():
-    #all_post = list(db.post.find({ 'status': True }, {'_id': False}).sort({"datetime": -1 }))
-    all_post = list(db.post.find({},{'_id':False}))
+@app.route('/view_list', methods=['GET'])
+def view_list():
+    type = request.args.get('type')
+    #cate = request.args.get('cate')
+    txt = request.args.get('txt')
 
-    return jsonify({"all_post" : all_post})
+    if type=='title' : #title 검색시 like 조건문
+        post_list = list(db.post.find({'title' : {'$regex': txt}}, {'_id': False}))
+    elif type=='poster_id' : #작성자 검색시 equal 조건문
+        post_list = list(db.post.find({'poster_id': txt}, {'_id': False}))
+    else :
+        post_list = list(db.post.find({},{'_id': False}))
 
+    return jsonify({"post_list" : post_list})
 
 if __name__ == '__main__':
-   app.run('0.0.0.0', port=5000, debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)

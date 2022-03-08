@@ -5,11 +5,11 @@ $(document).ready(function () {
 function get_all_post(){
     $.ajax({
         type: 'GET',
-        url: '/all_list' ,
+        url: '/view_list' ,
         data: {},
         success: function (response) {
             console.log(response)
-            let rows = response['all_post']
+            let rows = response['post_list']
 
             for (let i = 0; i < rows.length; i++) {
                 let title = rows[i]['title']
