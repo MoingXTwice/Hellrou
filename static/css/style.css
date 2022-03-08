@@ -68,6 +68,19 @@
 
 }
 
+.btnSignUpGo:hover {
+    cursor: pointer;
+    background: none;
+    font-weight: bold;
+
+}
+.btnSignUpGo > p {
+    color: #4E4E4E;
+    font-size: 20px;
+    margin: 0;
+    /*line-height: 20px;*/
+}
+
 .signUpMain {
     min-height: 70vh;
     display: flex;
