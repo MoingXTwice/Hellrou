@@ -30,7 +30,7 @@ app.register_blueprint(user_bp, url_prefix='/user')
 
 @app.route('/')
 def home():
-    user_id = request.args.get('user_id')
+    user_id = request.cookies.get('mytoken')
     if user_id :
         isLogin = True
     else :
