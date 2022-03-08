@@ -9,9 +9,6 @@
 {% endblock %}
 
 {% block contents %}
-    {% if user_sel == "" %}
-        <h1>현재 루틴이 없습니다.</h1>
-    {% else %}
     <div>
         <h1>{{ health.title }}</h1>
     </div>
@@ -50,5 +47,4 @@
             {{ health.process }}
         </div>
     </div>
-{% endif %}
 {% endblock %}
