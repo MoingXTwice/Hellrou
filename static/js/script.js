@@ -3,7 +3,7 @@
 function signup() {
     $.ajax({
         type: "POST",
-        url: "/api/signup",
+        url: "/user/api/signup",
         data: {
             id_give: $('#user_id').val(),
             pw_give: $('#password').val(),
@@ -12,7 +12,7 @@ function signup() {
         success: function (response) {
             if (response['result'] == 'success') {
                 alert('회원가입이 완료되었습니다.')
-                window.location.href = '/login'
+                window.location.href = '/user/login'
             } else {
                 alert(response['msg'])
             }
@@ -28,7 +28,7 @@ function signup() {
 function login() {
     $.ajax({
         type: "POST",
-        url: "/api/login",
+        url: "/user/api/login",
         data: {id_give: $('#user_id').val(), pw_give: $('#password').val()},
         success: function (response) {
             if (response['result'] == 'success') {
@@ -37,7 +37,7 @@ function login() {
                 $.cookie('mytoken', response['token']);
 
                 alert('로그인 완료!')
-                window.location.href = '/main'
+                window.location.href = '/'
             } else {
                 // 로그인이 안되면 에러메시지를 띄웁니다.
                 alert(response['msg'])

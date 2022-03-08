@@ -1,0 +1,25 @@
+table {
+    width: 100%;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th, td {
+    border: 1px solid #444444;
+    padding: 10px;
+}
+
+textarea {
+    height: 200px;
+    width: 100%;
+    border: 0;
+    resize: none;
+}
+
+.bs_wrap{
+    width : 100%;
+    display: flex;
+    justify-content: center;
+    margin : auto;
+}
