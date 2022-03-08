@@ -62,7 +62,7 @@
                             <span class="list_func">
                                     <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
                                     <button class="btn btn-danger"
-                                            onclick="del_like({{ like.post_id }}, {{ like.poster_id }})">삭제</button>
+                                            onclick="del_like('{{ like.post_id }}', '{{ like.poster_id }}')">삭제</button>
                             </span>
                         </div>
                         {% endfor %}
