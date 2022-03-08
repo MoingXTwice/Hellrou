@@ -1,9 +1,25 @@
 {% extends "base.html" %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="../static/css/mypage.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 {% endblock %}
 {% block script %}
-    <script src="../static/js/mypage.js?v=time()"></script>
+    <script src="../static/js/mypage.js"></script>
+    <script>
+        const user_id = 'test'
+        $(document).ready(function () {
+            $(".tab_title li").click(function () {
+                var idx = $(this).index();
+                $(".tab_title li").removeClass("tab_on");
+                $(".tab_title li").eq(idx).addClass("tab_on");
+                $(".tab_cont > div").hide();
+                $(".tab_cont > div").eq(idx).show();
+            })
+
+            mypage_list();
+        });
+    </script>
+
 {% endblock %}
 
 {% block contents %}

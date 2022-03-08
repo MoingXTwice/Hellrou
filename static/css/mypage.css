@@ -79,3 +79,8 @@
     display: flex;
     justify-content: center;
 }
+.list_func{
+    flex : 1;
+    display: flex;
+    justify-content: center;
+}
