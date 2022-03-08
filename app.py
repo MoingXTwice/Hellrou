@@ -46,27 +46,22 @@ def home():
 @app.route('/view_list', methods=['GET'])
 def view_list():
     post_list = list(db.post.find({'status':True},{'_id': False}))
-    print(post_list)
     return jsonify({"post_list" : post_list})
 
-@app.route('/search', methods=['GET'])
+@app.route('/search')
 def search():
     type = request.args.get('type')
     #cate = request.args.get('cate')
     txt = request.args.get('txt')
-    print(type)
-    print(txt)
     if type=='title' : #title 검색시 like 조건문
-        print('title')
         post_list = list(db.post.find({'$and' : [{'title' : {'$regex': txt} },{'status' : True} ]}, {'_id': False}))
     elif type=='poster_id' : #작성자 검색시 equal 조건문
-        print('poster_id')
         post_list = list(db.post.find({'$and' : [{'poster_id': txt},{'status' : True} ]}, {'_id': False}))
     else :
         post_list = list(db.post.find({'status':True},{'_id': False}))
 
     #return jsonify({"post_list" : post_list})
-    return render_template('view.html', post_list=post_list)
+    return render_template('view.html', post_list=post_list, isLogin=g.auth)
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

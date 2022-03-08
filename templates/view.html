@@ -3,14 +3,23 @@
     <link rel="stylesheet" type="text/css" href="static/css/main.css?v=time()">
 {% endblock %}
 {% block script %}
-    <script src="static/js/main.js?v=time()">
+    <script src="static/js/view.js?v=time()">
 
     </script>
 {% endblock %}
 {% block contents %}
     <div class="inner">
         <div class="card_wrap" id="card_wrap">
-            view.html
+            {% for row in post_list %}
+            <div class="card">
+                <div class="title">{{ row.title }}</div>
+                <div class="desc">{{ row.desc }}</div>
+                <div class="process">{{ row.process }}</div>
+                <div class="date">{{ row.datetime }}</div>
+                <div class="likes">💖{{ row.likes }}</div>
+                <div class="poster_id">{{ row.poster_id }}</div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
