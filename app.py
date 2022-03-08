@@ -1,10 +1,11 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, g
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
 import os
 import certifi
 import hashlib
+import jwt
 
 from health import health_bp
 from mypage import mypage_bp
@@ -23,21 +24,24 @@ client = MongoClient(mongo_host, tlsCAFile=certifi.where())
 
 db = client.hellrou
 
-
 #Blueprint 선언
 app.register_blueprint(health_bp, url_prefix='/health')
 app.register_blueprint(mypage_bp, url_prefix='/mypage')
 app.register_blueprint(user_bp, url_prefix='/user')
 
+@app.before_request
+def authenticate():
+    token_receive = request.cookies.get('mytoken')
+    if token_receive:
+        payload = jwt.decode(token_receive, app.secret_key, algorithms=['HS256'])
+        g.user_id = payload['id']
+        g.auth = True
+    else:
+        g.auth = False
+
 @app.route('/')
 def home():
-    user_id = request.cookies.get('mytoken')
-    if user_id :
-        isLogin = True
-    else :
-        isLogin = False
-    print(isLogin)
-    return render_template('main.html', isLogin=isLogin)
+    return render_template('main.html', isLogin=g.auth)
 
 @app.route('/view_list', methods=['GET'])
 def view_list():

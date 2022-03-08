@@ -19,6 +19,12 @@
 
 
     <script src="/static/js/base.js?v=time()"></script>
+    <script>
+        function logout(){
+            $.removeCookie('mytoken', {path:'/'})
+            window.location.replace('/')
+        }
+    </script>
     {% block script %}
     {% endblock %}
 
@@ -49,8 +55,8 @@
         </div>
         <div class="login_box">
         {% if isLogin == true %}
-            <div class="btn logout">로그아웃</div>
-            <div class="btn mypage">마이페이지</div>
+            <div class="btn logout" onclick="logout()">로그아웃</div>
+            <div class="btn mypage" onclick="location.href='/mypage'">마이페이지</div>
         {% elif isLogin == false %}
             <div class="btn" onclick="location.href='/user/login'">로그인</div>
         {% endif %}
