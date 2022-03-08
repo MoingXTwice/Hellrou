@@ -6,16 +6,18 @@
 {% block script %}
     <script>
         $(document).ready(function () {
+            $(".tab_cont > div").hide();
+            $("#mypage-list").show();
             $(".tab_title li").click(function () {
                 var idx = $(this).index();
                 $(".tab_title li").removeClass("tab_on");
                 $(".tab_title li").eq(idx).addClass("tab_on");
+
                 $(".tab_cont > div").hide();
                 $(".tab_cont > div").eq(idx).show();
             })
         });
     </script>
-
 {% endblock %}
 
 {% block contents %}
@@ -25,7 +27,7 @@
                 <p class="category">Categories</p>
                 <ul class="tab_title">
                     <li class="tab_on">내가 등록한 헬루</li>
-                    <li onclick="javascript:like_list()">스크랩한 헬루</li>
+                    <li>스크랩한 헬루</li>
                 </ul>
             </div>
             <div class="mypage_contents">
@@ -35,7 +37,7 @@
                          <div class="list_rows">
                                 <span class="list_title">{{ post.title }}</span>
                                 <span class="list_desc">{{ post.desc }}</span>
-                                <span class="list_likes">{{ post.likes }}</span>
+                                <span class="list_likes">💖{{ post.likes }}</span>
                                 <span class="list_date">{{ post.datetime }}</span>
                                 <span class="list_func">
                                     <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
@@ -49,13 +51,14 @@
                         <div class="list_rows">
                             <span class="list_title">{{ like.title }}</span>
                             <span class="list_desc">{{ like.desc}}</span>
-                            <span class="list_likes">{{ like.likes }}</span>
+                            <span class="list_likes">💖{{ like.likes }}</span>
                             <span class="list_date">{{ like.datetime }}</span>
+                            <span class="list_nick">{{ user_info.nick }}</span>
                             <span class="list_func">
                                     <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
                                     <button class="btn btn-danger"
                                             onclick="del_like({{ like.post_id }}, {{ like.poster_id }})">삭제</button>
-                                </span>
+                            </span>
                         </div>
                         {% endfor %}
                     </div>

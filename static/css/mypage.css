@@ -27,6 +27,7 @@
 .mypage_nav{
     display: flex;
     flex-direction: row;
+    align-items: center;
 
     width : 100%;
     border-bottom : 1px solid #D3D3D3;
@@ -45,8 +46,6 @@
 }
 .tab_cont{
     clear : both;
-}
-.on{
 }
 .list_rows{
     width : 100%;
@@ -75,6 +74,11 @@
     justify-content: center;
 }
 .list_date{
+    flex : 1;
+    display: flex;
+    justify-content: center;
+}
+.list_nick{
     flex : 1;
     display: flex;
     justify-content: center;
