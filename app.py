@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 import os
 import certifi
+import hashlib
 
 from health import health_bp
 from mypage import mypage_bp
@@ -27,7 +28,13 @@ app.register_blueprint(mypage_bp, url_prefix='/mypage')
 
 @app.route('/')
 def home():
-    return render_template('main.html')
+    user_id = request.args.get('user_id')
+    if user_id :
+        isLogin = True
+    else :
+        isLogin = False
+    print(isLogin)
+    return render_template('main.html', isLogin=isLogin)
 
 @app.route('/view_list', methods=['GET'])
 def view_list():
