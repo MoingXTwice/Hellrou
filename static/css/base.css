@@ -2,11 +2,18 @@
 * {
     box-sizing: border-box;
     color: #212121;
-    font-family: Gmarket Sans;
     outline: none;
-
+}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
+*{
+  font-family : 'Gmarket Sans Medium'
+}
 body {
     padding: 0;
     margin: 0;
@@ -68,7 +75,7 @@ nav:after {
 }
 nav .search_box{
     float: right;
-    width: 450px;
+    width: 456px;
     padding-top: 110px;
     margin : 0 30px;
     color : #53535e;

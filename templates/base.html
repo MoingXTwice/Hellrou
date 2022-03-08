@@ -18,7 +18,7 @@
             crossorigin="anonymous"></script>
 
 
-    <script src="static/js/base.js?v=time()"></script>
+    <script src="/static/js/base.js?v=time()"></script>
     {% block script %}
     {% endblock %}
 
@@ -47,9 +47,14 @@
             <input type="text" class="input_text">
             <button type="button" class="btn btn-primary">검색</button>
         </div>
+        {% if isLogin == true %}
+        <div class="mypage">마이페이지</div>
+        <div class="logout">로그아웃</div>
+        {% elif isLogin == false %}
         <div class="login_box">
             <div class="btn" onclick="location.href='/user/login'">로그인</div>
         </div>
+        {% endif %}
     </div>
 </nav>
 {% block contents %}
