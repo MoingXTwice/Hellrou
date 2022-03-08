@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, jsonify, request
+from flask import Flask, Blueprint, render_template, jsonify, request, redirect, url_for, g
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -20,13 +20,13 @@ db = client.hellrou
 #Blueprint
 mypage_bp = Blueprint('mypage', __name__)
 
-
-
 @mypage_bp.route('/')
 def mypage():
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, secret_key, algorithms=['HS256'])
-    user_id = payload['id']
+    try:
+        user_id = g.user_id
+        auth = g.auth
+    except:
+        return redirect(url_for('user.login'))
 
     post_list = list(db.post.find({'poster_id' : user_id}, {'_id' : False}))
     user_info = db.user.find_one({'user_id' : user_id}, {'_id' : False})
@@ -38,9 +38,9 @@ def mypage():
         else:
             like_list = list(db.post.find({'post_id': int(like_id)}, {'_id': False}))
     else:
-        return render_template('mypage.html', post_list = post_list, user_info=user_info)
+        return render_template('mypage.html', post_list = post_list, user_info=user_info, isLogin = auth)
 
-    return render_template('mypage.html', post_list = post_list, like_list = like_list, user_info=user_info)
+    return render_template('mypage.html', post_list = post_list, like_list = like_list, user_info=user_info, isLogin = auth)
 
 @mypage_bp.route('/del_post', methods=['GET'])
 def del_post():

@@ -19,6 +19,12 @@
 
 
     <script src="/static/js/base.js?v=time()"></script>
+    <script>
+        function logout(){
+            $.removeCookie('mytoken', {path:'/'})
+            window.location.replace('/')
+        }
+    </script>
     {% block script %}
     {% endblock %}
 
@@ -30,8 +36,8 @@
             <div class="img_box">
                 <img src="../static/img/logo.png" style="cursor:pointer;" onclick="location.href=('/');">
             </div>
-            <div class="btn">나의 헬루</div>
-            <div class="btn">헬루 등록</div>
+            <div class="btn" onclick="location.href='/health'">나의 헬루</div>
+            <div class="btn" onclick="location.href='/health/post'">헬루 등록</div>
         </div>
         <div class="search_box">
             <select class="type form-select">
@@ -47,17 +53,20 @@
             <input type="text" class="input_text">
             <button type="button" class="btn btn-primary">검색</button>
         </div>
-        {% if isLogin == true %}
-        <div class="mypage">마이페이지</div>
-        <div class="logout">로그아웃</div>
-        {% elif isLogin == false %}
         <div class="login_box">
+        {% if isLogin == true %}
+            <div class="btn logout" onclick="logout()">로그아웃</div>
+            <div class="btn mypage" onclick="location.href='/mypage'">마이페이지</div>
+        {% elif isLogin == false %}
             <div class="btn" onclick="location.href='/user/login'">로그인</div>
-        </div>
         {% endif %}
+        </div>
+
     </div>
 </nav>
+<div id="contents" class="inner">
 {% block contents %}
 {% endblock %}
+</div>
 </body>
 </html>

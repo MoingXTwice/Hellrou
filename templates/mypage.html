@@ -6,6 +6,7 @@
 {% block script %}
     <script>
         $(document).ready(function () {
+
             $(".tab_cont > div").hide();
             $("#mypage-list").show();
             $(".tab_title li").click(function () {
@@ -19,7 +20,6 @@
         });
     </script>
 {% endblock %}
-
 {% block contents %}
     <div class="mypage_wrap">
         <div class="mypage_container">
@@ -33,6 +33,7 @@
             <div class="mypage_contents">
                 <div class="tab_cont">
                     <div class="on" id="mypage-list">
+                    {% if post_list  %}
                         {% for post in post_list %}
                          <div class="list_rows">
                                 <span class="list_title">{{ post.title }}</span>
@@ -45,15 +46,19 @@
                                 </span>
                          </div>
                         {% endfor %}
+                    {% else %}
+                        <div class="empty_list"><p>입력한 헬루가 없습니다</p></div>
+                    {% endif %}
                     </div>
                     <div id="like-list">
+                    {% if like_list %}
                         {% for like in like_list %}
                         <div class="list_rows">
                             <span class="list_title">{{ like.title }}</span>
                             <span class="list_desc">{{ like.desc}}</span>
                             <span class="list_likes">💖{{ like.likes }}</span>
                             <span class="list_date">{{ like.datetime }}</span>
-                            <span class="list_nick">{{ user_info.nick }}</span>
+                            <span class="list_nick">{{ like.poster_id }}</span>
                             <span class="list_func">
                                     <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
                                     <button class="btn btn-danger"
@@ -61,6 +66,9 @@
                             </span>
                         </div>
                         {% endfor %}
+                    {% else %}
+                         <div class="empty_list"><p>스크랩한 헬루가 없습니다</p></div>
+                    {% endif %}
                     </div>
                 </div>
             </div>
