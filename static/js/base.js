@@ -1,3 +1,4 @@
+const root_url = "http://localhost:5000/"
 $(document).ready(function () {
     $("nav .search_box button").click(function(){
         let type= $(this).closest(".search_box").find(".type").val()
@@ -7,7 +8,8 @@ $(document).ready(function () {
             alert("작성자로 검색하시려면 검색어를 입력해주세요")
             return
         }
-        let tmp_url = "/view_list?type="+type+"&cate="+cate+"&txt="+txt;
+        let tmp_url = root_url + "view_list?type="+type+"&cate="+cate+"&txt="+txt;
+
         $.ajax({
             type: 'GET',
             url: tmp_url,
@@ -19,7 +21,13 @@ $(document).ready(function () {
                     alert("검색 결과가 없습니다")
                     return
                 }
-                $('#card_wrap').empty();
+                $('#contents').empty();
+                let a = `
+                <div class="inner">
+                    <div class="card_wrap" id="card_wrap">
+                    </div>
+                </div>`
+                $('#contents').append(a)
                 for (let i = 0; i < rows.length; i++) {
                     let title = rows[i]['title']
                     let desc = rows[i]['desc']
@@ -41,5 +49,12 @@ $(document).ready(function () {
             }
         })
         //alert(tmp_url);
+
+
     })
 });
+
+function go(url){
+    let tmp_url= root_url + url
+    location.href=tmp_url
+}
