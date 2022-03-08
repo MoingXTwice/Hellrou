@@ -36,8 +36,8 @@
             <div class="img_box">
                 <img src="../static/img/logo.png" style="cursor:pointer;" onclick="location.href=('/');">
             </div>
-            <div class="btn">나의 헬루</div>
-            <div class="btn">헬루 등록</div>
+            <div class="btn" onclick="location.href='/health'">나의 헬루</div>
+            <div class="btn" onclick="location.href='/health/post'">헬루 등록</div>
         </div>
         <div class="search_box">
             <select class="type form-select">
@@ -64,7 +64,9 @@
 
     </div>
 </nav>
+<div id="contents" class="inner">
 {% block contents %}
 {% endblock %}
+</div>
 </body>
 </html>
