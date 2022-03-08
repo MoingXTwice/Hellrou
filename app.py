@@ -8,6 +8,7 @@ import hashlib
 
 from health import health_bp
 from mypage import mypage_bp
+from signuplogin import user_bp
 
 app = Flask(__name__)
 #app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -25,6 +26,7 @@ db = client.hellrou
 #Blueprint 선언
 app.register_blueprint(health_bp, url_prefix='/health')
 app.register_blueprint(mypage_bp, url_prefix='/mypage')
+app.register_blueprint(user_bp, url_prefix='/user')
 
 @app.route('/')
 def home():
