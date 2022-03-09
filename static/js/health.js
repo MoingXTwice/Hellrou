@@ -27,6 +27,7 @@ function post() {
         },
         success: function (response) {
             alert(response['msg'])
+            window.location.href = '/'
         }
 
     })
