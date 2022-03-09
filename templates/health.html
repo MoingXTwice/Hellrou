@@ -10,67 +10,69 @@
 {% endblock %}
 
 {% block contents %}
-    {% if user_sel == "" %}
-        <h1>현재 루틴이 없습니다.</h1>
-    {% else %}
-        <div>
-            <h1>{{ health.title }}</h1>
-        </div>
-        <div>
-            {% if health.status == False and health.poster_id == user_id %}
-                <button class="button" onclick="share('{{ health.post_id }}')">공유하기</button>
-            {% elif health.status == True and health.poster_id == user_id %}
-                <button class="button" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
-            {% endif %}
-        </div>
-        <div>
-            {% if like_status == False and user_id != ''%}
-                <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
-            {% elif like_status == False and user_id == '' %}
+    <div class="inner">
+        {% if user_sel == "" %}
+            <h1>현재 루틴이 없습니다.</h1>
+        {% else %}
+            <div>
+                <h1>{{ health.title }}</h1>
+            </div>
+            <div>
+                {% if health.status == False and health.poster_id == user_id %}
+                    <button class="button" onclick="share('{{ health.post_id }}')">공유하기</button>
+                {% elif health.status == True and health.poster_id == user_id %}
+                    <button class="button" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
+                {% endif %}
+            </div>
+            <div>
+                {% if like_status == False and user_id != '' %}
+                    <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
+                {% elif like_status == False and user_id == '' %}
 
-            {% elif like_status == True and user_id != '' %}
-                <button class="button" onclick="del_like('{{ health.post_id }}')">스크랩취소</button>
-            {% endif %}
-        </div>
-        <div>
-        {% if sel_status == False and user_id != '' %}
-            <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
-        {% elif sel_status == True and user_id != '' %}
-            <button class="button">선택됨</button>
-        {% elif user_id == '' %}
+                {% elif like_status == True and user_id != '' %}
+                    <button class="button" onclick="del_like('{{ health.post_id }}')">스크랩취소</button>
+                {% endif %}
+            </div>
+            <div>
+                {% if sel_status == False and user_id != '' %}
+                    <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
+                {% elif sel_status == True and user_id != '' %}
+                    <button class="button">선택됨</button>
+                {% elif user_id == '' %}
+                {% endif %}
+            </div>
+
+
+            <table class="table is-bordered is-striped">
+                <thead>
+                <tr>
+                    <th>Day1</th>
+                    <th>Day2</th>
+                    <th>Day3</th>
+                    <th>Day4</th>
+                    <th>Day5</th>
+                    <th>Day6</th>
+                    <th>Day7</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ health.day1 }}</td>
+                    <td>{{ health.day2 }}</td>
+                    <td>{{ health.day3 }}</td>
+                    <td>{{ health.day4 }}</td>
+                    <td>{{ health.day5 }}</td>
+                    <td>{{ health.day6 }}</td>
+                    <td>{{ health.day7 }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="field-label is-normal process-title">
+                <h1 class="title">{{ health.title }}</h1>
+            </div>
+            <div class="box process-content">
+                {{ health.process }}
+            </div>
         {% endif %}
-        </div>
-
-
-        <table class="table is-bordered is-striped">
-            <thead>
-            <tr>
-                <th>Day1</th>
-                <th>Day2</th>
-                <th>Day3</th>
-                <th>Day4</th>
-                <th>Day5</th>
-                <th>Day6</th>
-                <th>Day7</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{ health.day1 }}</td>
-                <td>{{ health.day2 }}</td>
-                <td>{{ health.day3 }}</td>
-                <td>{{ health.day4 }}</td>
-                <td>{{ health.day5 }}</td>
-                <td>{{ health.day6 }}</td>
-                <td>{{ health.day7 }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="field-label is-normal process-title">
-            <h1 class="title">{{ health.title }}</h1>
-        </div>
-        <div class="box process-content">
-            {{ health.process }}
-        </div>
-    {% endif %}
+    </div>
 {% endblock %}
