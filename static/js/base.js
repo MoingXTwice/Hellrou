@@ -69,24 +69,29 @@ function getData(offset, limit) {
             let rows = response['post_list']
             for (let i = 0; i < rows.length; i++) {
                 let title = rows[i]['title']
+                let post_id = rows[i]['post_id']
                 let desc = rows[i]['desc']
                 let process = rows[i]['process']
                 let likes = rows[i]['likes']
                 let date = rows[i]['datetime']
                 let poster_id = rows[i]['poster_id']
                 let tmp_html = ''
-                tmp_html = `<div class="card">
-                                    <div class="title">${title}</div>
-                                    <div class="desc">${desc}</div>
-                                    <div class="process">${process}</div>
-                                    <div class="date">${date}</div>
-                                    <div class="likes">💖${likes}</div>
-                                    <div class="poster_id">${poster_id}</div>
-                                </div>
+                tmp_html = `
+            <div class="card" onclick="location.href='/health?post_id=${post_id}'">
+                <input type="hidden" id="post_id" value="${post_id}">
+                <div class="title">${title}</div>
+                <div class="desc"><i class="fa-solid fa-pen"></i>     조질부위<br>
+                    ${desc}</div>
+                <div class="process"><i class="fa-solid fa-user-clock"></i>     실행프로세스<br>
+                    ${process}</div>
+                <div class="date">${date}</div>
+                <div class="likes">💖${likes}</div>
+                <div class="poster_id">${poster_id}</div>
+            </div>
                         `
                 $('#card_wrap').append(tmp_html)
             }
-            console.log(rows.length + "만큼 붙였다")
+            //console.log(rows.length + "만큼 붙였다")
             oneTime = false;
         }
     })
