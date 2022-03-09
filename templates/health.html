@@ -13,34 +13,35 @@
     {% if user_sel == "" %}
         <h1>현재 루틴이 없습니다.</h1>
     {% else %}
-        <div>
-            <h1>{{ health.title }}</h1>
+        <div class="field-label is-normal">
+            <h1 class="title">{{ health.title }}</h1>
         </div>
-        <div>
-            {% if health.status == False and health.poster_id == user_id %}
-                <button class="button" onclick="share('{{ health.post_id }}')">공유하기</button>
-            {% elif health.status == True and health.poster_id == user_id %}
-                <button class="button" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
-            {% endif %}
-        </div>
-        <div>
-            {% if like_status == False and user_id != ''%}
-                <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
-            {% elif like_status == False and user_id == '' %}
+        <div class="mybtns">
+            <div>
+                {% if sel_status == False and user_id != '' %}
+                    <button class="button mybtn" onclick="select('{{ health.post_id }}')">선택하기</button>
+                {% elif sel_status == True and user_id != '' %}
+                    <button class="button mybtn" title="Disabled button" disabled>선택됨</button>
+                {% elif user_id == '' %}
+                {% endif %}
+            </div>
+            <div>
+                {% if like_status == False and user_id != '' %}
+                    <button class="button mybtn" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
+                {% elif like_status == False and user_id == '' %}
 
-            {% elif like_status == True and user_id != '' %}
-                <button class="button" onclick="del_like('{{ health.post_id }}')">스크랩취소</button>
-            {% endif %}
+                {% elif like_status == True and user_id != '' %}
+                    <button class="button mybtn" onclick="del_like('{{ health.post_id }}')">스크랩취소</button>
+                {% endif %}
+            </div>
+            <div>
+                {% if health.status == False and health.poster_id == user_id %}
+                    <button class="button mybtn is-success" onclick="share('{{ health.post_id }}')">공유하기</button>
+                {% elif health.status == True and health.poster_id == user_id %}
+                    <button class="button mybtn is-warning" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
+                {% endif %}
+            </div>
         </div>
-        <div>
-        {% if sel_status == False and user_id != '' %}
-            <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
-        {% elif sel_status == True and user_id != '' %}
-            <button class="button">선택됨</button>
-        {% elif user_id == '' %}
-        {% endif %}
-        </div>
-
 
         <table class="table is-bordered is-striped">
             <thead>
