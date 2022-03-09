@@ -55,3 +55,11 @@
     box-shadow: 0 0 11px rgba(33,33,33,.7);
     cursor: pointer;
 }
+.main_banner{
+    min-width : 90vw;
+    min-height : auto;
+}
+.banner_img{
+    object-fit: cover;
+    width : 100%;
+}

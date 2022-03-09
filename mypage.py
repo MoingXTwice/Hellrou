@@ -49,9 +49,9 @@ def mypage():
         else:  #리스트가 아니면 스크랩한 id값에 해당하는 운동데이터 추출
             like_list = list(db.post.find({'post_id': like_id}, {'_id': False}))
     else: #스크랩한 내역이 없는 경우 제외하고 데이터 전송
-        return render_template('mypage.html', post_list = post_list, user_info=user_info, isLogin = auth)
+        return render_template('mypage.html', post_list = post_list, user_info=user_info)
 
-    return render_template('mypage.html', post_list = post_list, like_list = like_list, user_info=user_info, isLogin = auth)
+    return render_template('mypage.html', post_list = post_list, like_list = like_list, user_info=user_info)
 
 @mypage_bp.route('/del_post', methods=['GET']) #내가 등록한 운동의 삭제
 def del_post():

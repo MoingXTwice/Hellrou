@@ -8,6 +8,9 @@
     </script>
 {% endblock %}
 {% block contents %}
+    <div class="main_banner">
+        <img src="../static/img/hellrou_banner.png" class="banner_img">
+    </div>
     <div class="inner">
         <div class="card_wrap" id="card_wrap">
             {% for row in post_list %}
@@ -22,5 +25,5 @@
             </div>
             {% endfor %}
         </div>
-    </div>
+        </div>
 {% endblock %}
