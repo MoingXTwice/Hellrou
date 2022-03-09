@@ -1,3 +1,9 @@
+.subtitle{
+    margin-top : 5vh;
+    width : 100%;
+    border-bottom : 1px solid #554C4C;
+    font-size : 20px;
+}
 .card_wrap{
     margin-top : 20px;
     width : 100%;
@@ -10,48 +16,71 @@
     margin: 10px;
     padding : 10px;
     float:left;
+    border-radius : 1.25rem;
 }
 .card_wrap:after { display: block; content:""; clear:left;}
 .card_wrap .card .title {
-    font-size: 26px;
-    margin-bottom : 5px;
+    font-size: 30px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    border-bottom: 1px solid #554C4C;
+    text-align: center;
+    height : 25%;
+    padding-top : 10%;
+
 }
 .card_wrap .card .desc {
-    font-size: 24px;
+    font-size: 15px;
     margin-bottom : 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color : #0C3839;
+    /*border-bottom: 1px solid #000;*/
+    padding : 10px 0px 10px 0px;
+    height : 15%;
 }
 .card_wrap .card .process {
-    font-size: 22px;
-    height: 235px;
+    font-size: 15px;
+    height : 40%;
     display:-webkit-box;
     -webkit-line-clamp:7;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    color : #8f8f8f;
+    /*border-bottom: 1px solid #000;*/
+    padding : 10px 0px 10px 0px;
 }
 .card_wrap .card .date {
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: 1vh;
+    text-align: right;
+    padding : 10px 0px 10px 0px;
 }
 .card_wrap .card .likes {
     display:inline-block;
-    width: 50px;
+    width: 30%;
     font-size: 16px;
+    padding : 10px 0px 10px 0px;
 }
 .card_wrap .card .poster_id {
     display:inline-block;
-    width: 100px;
+    width: 70%;
     font-size: 16px;
     float:right;
     text-align:right;
+    padding : 10px 10px 0px 0px;
 }
 .card_wrap .card:hover{
     box-shadow: 0 0 11px rgba(33,33,33,.7);
     cursor: pointer;
+}
+.main_banner{
+    min-width : 90vw;
+    min-height : auto;
+}
+.banner_img{
+    object-fit: cover;
+    width : 100%;
 }
