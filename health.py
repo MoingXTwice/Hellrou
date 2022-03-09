@@ -57,7 +57,7 @@ def detail_view():
             else:
                 like_status = False
 
-            if post_id == user_info['sel_id']:
+            if post_id == user_info['sel_id']: #선택한 헬루가 로그인된 유저에게 선택되었는지 체크
                 sel_status = True
             else:
                 sel_status = False
@@ -166,7 +166,8 @@ def scrap():
         else:
             db.user.update_one({'user_id': user_id}, {'$push': {'like_id': post_id}})
             db.post.update_one({'post_id' : post_id}, {'$inc' : {'likes' : 1}})
-            return jsonify({'result': 'success'})
+            return jsonify({'msg': '스크랩되었습니다'})
+
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 

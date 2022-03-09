@@ -62,9 +62,9 @@ def del_post():
 @mypage_bp.route('/del_like', methods=['GET']) #내가 스크랩한 운동의 삭제
 def del_like():
     post_id = request.args.get('post_id')
-    user_id = request.args.get('user_id')
+    user_id = g.user_id
 
     db.user.update_one({'user_id' : user_id}, {'$pull':{'like_id' : post_id}}) #배열에서 해당 ID 삭제 후 업데이트
     db.post.update_one({'post_id' : post_id}, {'$inc' : {'likes' : -1}})
 
-    return jsonify({'msg' : '스크랩한운동이 삭제되었습니다'})
+    return jsonify({'msg' : '스크랩이 취소되었습니다'})
