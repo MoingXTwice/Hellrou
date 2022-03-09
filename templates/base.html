@@ -24,6 +24,14 @@
             $.removeCookie('mytoken', {path:'/'})
             window.location.replace('/')
         }
+        function isLogin(){
+            const cookieArr = document.cookie.split(";")
+            let mytoken = cookieArr['mytoken']
+            console.log(mytoken)
+        }
+        $(document).ready(function(){
+            isLogin();
+        })
     </script>
     {% block script %}
     {% endblock %}
