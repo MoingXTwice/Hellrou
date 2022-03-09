@@ -47,9 +47,9 @@ def home():
 
     # 2022 03 08 21:57 sort likes 순으로 내림차순 추가
     if type == 'title':  # title 검색시 like 조건문
-        post_list = list(db.post.find({'$and': [{'title': {'$regex': txt}}, {'status': True}]}, {'_id': False}).sort('likes', -1).limit(12))
+        post_list = list(db.post.find({'$and': [{'title': {'$regex': txt}}, {'status': True}]}, {'_id': False}).sort('likes', -1))
     elif type == 'poster_id':  # 작성자 검색시 equal 조건문
-        post_list = list(db.post.find({'$and': [{'poster_id': txt}, {'status': True}]}, {'_id': False}).sort('likes', -1).limit(12))
+        post_list = list(db.post.find({'$and': [{'poster_id': txt}, {'status': True}]}, {'_id': False}).sort('likes', -1))
     else:
         post_list = list(db.post.find({'status': True}, {'_id': False}).sort('likes', -1).limit(12))
 
