@@ -47,7 +47,7 @@ def mypage():
         if isinstance(like_id, list): #like_id가 리스트 형식인지 확인
             like_list = list(db.post.find({'post_id': {'$in': like_id}}, {'_id': False})) #post_id가 like_id에 해당되는지 확인 후 추출
         else:  #리스트가 아니면 스크랩한 id값에 해당하는 운동데이터 추출
-            like_list = list(db.post.find({'post_id': int(like_id)}, {'_id': False}))
+            like_list = list(db.post.find({'post_id': like_id}, {'_id': False}))
     else: #스크랩한 내역이 없는 경우 제외하고 데이터 전송
         return render_template('mypage.html', post_list = post_list, user_info=user_info, isLogin = auth)
 
@@ -56,7 +56,7 @@ def mypage():
 @mypage_bp.route('/del_post', methods=['GET']) #내가 등록한 운동의 삭제
 def del_post():
     post_id = request.args.get('post_id')
-    db.post.delete_one({'post_id' : int(post_id)})
+    db.post.delete_one({'post_id' : post_id})
     return jsonify({'msg' : '등록한 운동이 삭제되었습니다'})
 
 @mypage_bp.route('/del_like', methods=['GET']) #내가 스크랩한 운동의 삭제
@@ -64,6 +64,7 @@ def del_like():
     post_id = request.args.get('post_id')
     user_id = request.args.get('user_id')
 
-    db.user.update_one({'user_id' : user_id}, {'$pull':{'like_id' : int(post_id)}}) #배열에서 해당 ID 삭제 후 업데이트
+    db.user.update_one({'user_id' : user_id}, {'$pull':{'like_id' : post_id}}) #배열에서 해당 ID 삭제 후 업데이트
+    db.post.update_one({'post_id' : post_id}, {'$inc' : {'likes' : -1}})
 
     return jsonify({'msg' : '스크랩한운동이 삭제되었습니다'})

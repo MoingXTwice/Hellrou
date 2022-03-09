@@ -35,16 +35,17 @@
                     <div class="on" id="mypage-list">
                     {% if post_list  %}
                         {% for post in post_list %}
-                         <div class="list_rows">
+                         <div class="list_rows" style="cursor:pointer;" onclick="location.href='/health?post_id={{ post.post_id }}'">
                                 <span class="list_title">{{ post.title }}</span>
                                 <span class="list_desc">{{ post.desc }}</span>
                                 <span class="list_likes">💖{{ post.likes }}</span>
                                 <span class="list_date">{{ post.datetime }}</span>
                                 <span class="list_func">
                                     <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
-                                    <button class="btn btn-danger" onclick="del_post({{ post.post_id }})">삭제</button>
+                                    <button class="btn btn-danger" onclick="javascript:event.stopPropagation(); del_post('{{ post.post_id }}')">삭제</button>
                                 </span>
                          </div>
+
                         {% endfor %}
                     {% else %}
                         <div class="empty_list"><p>입력한 헬루가 없습니다</p></div>
@@ -53,7 +54,7 @@
                     <div id="like-list">
                     {% if like_list %}
                         {% for like in like_list %}
-                        <div class="list_rows">
+                        <div class="list_rows" style="cursor:pointer;" onclick="location.href='/health?post_id={{ like.post_id }}'">
                             <span class="list_title">{{ like.title }}</span>
                             <span class="list_desc">{{ like.desc}}</span>
                             <span class="list_likes">💖{{ like.likes }}</span>
@@ -61,7 +62,7 @@
                             <span class="list_nick">{{ like.poster_id }}</span>
                             <span class="list_func">
                                     <button class="btn btn-danger"
-                                            onclick="del_like('{{ like.post_id }}', '{{ like.poster_id }}')">삭제</button>
+                                            onclick="javascript:event.stopPropagation(); del_like('{{ like.post_id }}', '{{ like.poster_id }}')">삭제</button>
                             </span>
                         </div>
                         {% endfor %}

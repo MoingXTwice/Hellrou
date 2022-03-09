@@ -6,6 +6,7 @@
 {% endblock %}
 {% block script %}
     <script src="../static/js/health.js"></script>
+    <script src="../static/js/mypage.js"></script>
 {% endblock %}
 
 {% block contents %}
@@ -23,7 +24,11 @@
             {% endif %}
         </div>
         <div>
-            <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
+            {% if like_status == False %}
+                <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
+            {% else %}
+                <button class="button" onclick="del_like('{{ health.post_id }}', '{{ user_id }}')">스크랩취소</button>
+            {% endif %}
         </div>
         <div>
             <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
