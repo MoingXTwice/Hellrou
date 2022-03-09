@@ -9,6 +9,7 @@ import uuid
 import os
 import certifi
 
+
 load_dotenv()
 
 mongo_host = os.getenv('MONGODB_HOST')
@@ -44,26 +45,31 @@ def detail_view():
 
             sel_status = True
 
-            return render_template('health.html', health=find_post, user_sel=user_sel, like_status = like_status, sel_status = sel_status)
+            return render_template('health.html', health=find_post, user_sel=user_sel, like_status = like_status, sel_status = sel_status, user_id=g.user_id)
         # 공유된 헬루(내가 쓴 헬루 포함)
         #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
         else:
             find_post = db.post.find_one({'post_id': post_id}) #post_id에 해당되는 post데이터 가져오기
-            user_info = db.user.find_one({'user_id' : g.user_id})
-            like_id = user_info['like_id'] #로그인한 user_id의 like_id 가져오기
+            if g.auth:
+                user_id = g.user_id
+                user_info = db.user.find_one({'user_id' : user_id})
+                like_id = user_info['like_id']  # 로그인한 user_id의 like_id 가져오기
 
-            if post_id in like_id: #선택한 헬루가 스크랩되었는지 체크
-                like_status = True
+                if post_id in like_id:  # 선택한 헬루가 스크랩되었는지 체크
+                    like_status = True
+                else:
+                    like_status = False
+
+                if post_id == user_info['sel_id']:  # 선택한 헬루가 로그인된 유저에게 선택되었는지 체크
+                    sel_status = True
+                else:
+                    sel_status = False
             else:
+                user_id = ''
                 like_status = False
-
-            if post_id == user_info['sel_id']: #선택한 헬루가 로그인된 유저에게 선택되었는지 체크
-                sel_status = True
-            else:
                 sel_status = False
 
-
-            return render_template('health.html', health=find_post, like_status = like_status, user_id=g.user_id, sel_status = sel_status)
+            return render_template('health.html', health=find_post, like_status = like_status, user_id=user_id, sel_status = sel_status)
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         flash('로그인 후 이용 가능합니다.')
         return redirect('/user/login')
@@ -80,8 +86,12 @@ def detail_view():
 @health_bp.route('/post')
 def post():
     token_receive = request.cookies.get('mytoken')
-
-    return render_template('post.html')
+    try:
+        jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return render_template('post.html')
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        flash('로그인 후 이용 가능합니다.')
+        return redirect('/user/login')
 
 # 헬루 등록 api
 @health_bp.route('/post', methods=['POST'])
@@ -89,6 +99,7 @@ def post_api():
     token_receive = request.cookies.get('mytoken')
 
     try:
+        post_id = uuid.uuid4().hex
         # poster_id 값 가져오기
         user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
 
@@ -105,7 +116,7 @@ def post_api():
         write_time = datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S')
 
         doc = {
-            'post_id': uuid.uuid4().hex,
+            'post_id': post_id,
             'poster_id': user_id,
             'title': title,
             'desc': desc,
@@ -123,7 +134,7 @@ def post_api():
         }
         db.post.insert_one(doc)
 
-        return jsonify({'result': 'success', 'msg': '헬루 등록이 완료되었습니다.'})
+        return jsonify({'result': 'success', 'msg': '헬루 등록이 완료되었습니다.', 'post_id': post_id})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 
@@ -146,7 +157,7 @@ def share():
 def share_cancel():
     token_receive = request.cookies.get('mytoken')
     try:
-        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         post_id = request.form['post_id']
         db.post.update_one({'post_id': post_id}, {'$set': {'status': False}})
         return jsonify({'result': 'success'})

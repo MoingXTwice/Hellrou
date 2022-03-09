@@ -1,13 +1,24 @@
+h1 {
+    text-align: left;
+}
+
 table {
     width: 100%;
-    border: 1px solid #444444;
+    min-height: 300px;
+    /*border: 1px solid #444444;*/
     border-collapse: collapse;
+    border-radius: 20px;
+    border-style: hidden;
+    box-shadow: 0 0 0 1px #000;
     text-align: center;
+    margin-top: 10px;
 }
 
 th, td {
     border: 1px solid #444444;
     padding: 10px;
+    width: 100px;
+    white-space: pre-wrap;
 }
 
 textarea {
@@ -15,11 +26,47 @@ textarea {
     width: 100%;
     border: 0;
     resize: none;
+
 }
 
-.bs_wrap{
-    width : 100%;
+.field-label {
+    margin-top: 20px;
+}
+
+.bs_wrap {
+    width: 100%;
     display: flex;
     justify-content: center;
-    margin : auto;
+    margin: auto;
+}
+
+.body-head {
+    margin-top: 30px;
+}
+
+.process-content {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+.mybtns {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: end;
+}
+
+.mybtn {
+    margin-right: 10px;
+}
+
+.post-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.post-btn > button {
+    margin-right: 30px;
 }

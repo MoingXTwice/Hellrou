@@ -9,7 +9,10 @@ function signup() {
             pw_give: $('#password').val(),
             nickname_give: $('#nick').val(),
             selprgm_give: $('#sel_program').val(),
-            scrprgm_give: $('#scr_program').val()
+            scrprgm_give: $('#scr_program').val(),
+            mass_give: $('#mass').val(),  //TODO mass, str, funct 체크박스 value 받아와 배열로 만들 것.
+            str_give: $('#str').val(),    //TODO mass, str, funct 체크박스 value 받아와 배열로 만들 것.
+            funct_give: $('#funct').val() //TODO mass, str, funct 체크박스 value 받아와 배열로 만들 것.
         },
         success: function (response) {
             if (response['result'] == 'success') {

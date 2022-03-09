@@ -12,7 +12,7 @@ from mypage import mypage_bp
 from signuplogin import user_bp
 
 app = Flask(__name__)
-#app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # 환경변수 값 불러오기
 load_dotenv()
@@ -53,7 +53,8 @@ def home():
     else:
         post_list = list(db.post.find({'status': True}, {'_id': False}).sort('likes', -1).limit(12))
 
-    return render_template('view.html', post_list = post_list, isLogin=g.auth)
+    return render_template('view.html', post_list = post_list)
+#   return render_template('view.html', post_list = post_list, isLogin=g.auth)
 
 @app.route('/view_list', methods=['GET'])
 def view_list():

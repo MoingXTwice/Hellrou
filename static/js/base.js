@@ -17,10 +17,12 @@ $(document).ready(function () {
         $("nav .guest").removeClass('dn');
         $("nav .guest").addClass('dn');
     } else {
+
         $("nav .guest").removeClass('dn');
         $("nav .member").removeClass('dn');
         $("nav .member").addClass('dn');
     }
+
 
     YesScroll()
 });
