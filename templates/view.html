@@ -11,7 +11,8 @@
     <div class="inner">
         <div class="card_wrap" id="card_wrap">
             {% for row in post_list %}
-            <div class="card">
+            <div class="card" onclick="location.href='/health?post_id={{ row.post_id }}'">
+                <input type="hidden" id="post_id" value="{{ row.post_id }}">
                 <div class="title">{{ row.title }}</div>
                 <div class="desc">{{ row.desc }}</div>
                 <div class="process">{{ row.process }}</div>
