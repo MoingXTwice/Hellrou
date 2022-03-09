@@ -73,5 +73,8 @@
         <div class="box process-content">
             {{ health.process }}
         </div>
+        {% if health.poster_id == user_id %}
+            <button class="button" onclick="location.href='/health/modify?post_id={{ health.post_id }}'">수정하기</button>
+        {% endif %}
     {% endif %}
 {% endblock %}

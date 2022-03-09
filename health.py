@@ -26,7 +26,7 @@ KST = pytz.timezone('Asia/Seoul')
 # 모든 회원의 상세 보기 페이지
 # 이 페이지의 역할 - 1.나의 루틴 클릭시 나의 sel_id 가져오기
 #                2.공유된 것 클릭시 post_id 가져오기
-@health_bp.route('', methods=['GET'])
+@health_bp.route('')
 def detail_view():
     token_receive = request.cookies.get('mytoken')
     try:
@@ -138,6 +138,61 @@ def post_api():
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 
+# 헬루 수정
+@health_bp.route('/modify')
+def modify():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        post_id = request.args.get('post_id')
+        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        post = db.post.find_one({'post_id': post_id})
+        if user_id == post['poster_id']:
+            return render_template('modify.html', post=post)
+        else:
+            return redirect('/')
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
+
+
+# 헬루 수정 api
+@health_bp.route('/modify', methods=['POST'])
+def modify_api():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        post_id = request.args.get('post_id')
+        # poster_id 값 가져오기
+        jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+
+        title = request.form['title']
+        desc = request.form['desc']
+        process = request.form['process']
+        day1 = request.form['day1']
+        day2 = request.form['day2']
+        day3 = request.form['day3']
+        day4 = request.form['day4']
+        day5 = request.form['day5']
+        day6 = request.form['day6']
+        day7 = request.form['day7']
+
+        doc = {
+            'title': title,
+            'desc': desc,
+            'process': process,
+            'day1': day1,
+            'day2': day2,
+            'day3': day3,
+            'day4': day4,
+            'day5': day5,
+            'day6': day6,
+            'day7': day7
+        }
+        db.post.update_one({'post_id': post_id}, {'$set': doc})
+
+        return jsonify({'result': 'success', 'msg': '헬루 수정이 완료되었습니다.', 'post_id': post_id})
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect('/user/login')
+
+
 #TODO 공유기능을 같이 묶을 수 있지 않을까?
 #일단 기능 구현 먼저 해두고 리팩토링 -> status 값을 가져와야 하나?
 # 공유 기능
@@ -145,7 +200,7 @@ def post_api():
 def share():
     token_receive = request.cookies.get('mytoken')
     try:
-        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         post_id = request.form['post_id']
         db.post.update_one({'post_id': post_id}, {'$set': {'status': True}})
         return jsonify({'result': 'success'})
