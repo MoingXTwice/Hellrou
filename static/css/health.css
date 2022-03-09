@@ -12,14 +12,17 @@ table {
     box-shadow: 0 0 0 1px #000;
     text-align: center;
     margin-top: 10px;
+    table-layout: fixed;
 }
 
 th, td {
     border: 1px solid #444444;
     padding: 10px;
-    width: 100px;
+    max-width: 100px;
     white-space: pre-wrap;
+    word-wrap: break-word;
 }
+
 
 textarea {
     height: 200px;
