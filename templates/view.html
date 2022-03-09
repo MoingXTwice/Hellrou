@@ -12,13 +12,18 @@
         <img src="../static/img/hellrou_banner.png" class="banner_img">
     </div>
     <div class="inner">
+        <div class="subtitle">
+            인기순
+        </div>
         <div class="card_wrap" id="card_wrap">
             {% for row in post_list %}
             <div class="card" onclick="location.href='/health?post_id={{ row.post_id }}'">
                 <input type="hidden" id="post_id" value="{{ row.post_id }}">
                 <div class="title">{{ row.title }}</div>
-                <div class="desc">{{ row.desc }}</div>
-                <div class="process">{{ row.process }}</div>
+                <div class="desc"><i class="fa-solid fa-pen"></i>     조질부위<br>
+                    {{ row.desc }}</div>
+                <div class="process"><i class="fa-solid fa-user-clock"></i>     실행프로세스<br>
+                    {{ row.process }}</div>
                 <div class="date">{{ row.datetime }}</div>
                 <div class="likes">💖{{ row.likes }}</div>
                 <div class="poster_id">{{ row.poster_id }}</div>
