@@ -99,6 +99,7 @@ def post_api():
     token_receive = request.cookies.get('mytoken')
 
     try:
+        post_id = uuid.uuid4().hex
         # poster_id 값 가져오기
         user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
 
@@ -115,7 +116,7 @@ def post_api():
         write_time = datetime.now(KST).strftime('%Y-%m-%d %H:%M:%S')
 
         doc = {
-            'post_id': uuid.uuid4().hex,
+            'post_id': post_id,
             'poster_id': user_id,
             'title': title,
             'desc': desc,
@@ -133,7 +134,7 @@ def post_api():
         }
         db.post.insert_one(doc)
 
-        return jsonify({'result': 'success', 'msg': '헬루 등록이 완료되었습니다.'})
+        return jsonify({'result': 'success', 'msg': '헬루 등록이 완료되었습니다.', 'post_id': post_id})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 

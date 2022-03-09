@@ -26,8 +26,9 @@ function post() {
             'day7': day7
         },
         success: function (response) {
+            let post_id = response['post_id']
             alert(response['msg'])
-            window.location.href = '/'
+            window.location.href = '/health?post_id=' + post_id
         }
 
     })
