@@ -34,19 +34,37 @@ def detail_view():
         # 나의 헬루
         if post_id is None:
             user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
-            user_sel = db.user.find_one({'user_id': user_id})['sel_id']
+            user_info = db.user.find_one({'user_id': user_id})
+            user_sel = user_info['sel_id']
             find_post = db.post.find_one({'post_id': user_sel})
-            return render_template('health.html', health=find_post, user_sel=user_sel)
-        # 공유된 헬루(내가 쓴 헬루 포함)
-        #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
-        else:
-            find_post = db.post.find_one({'post_id': post_id})
-            like_id = db.user.find_one({'user_id' : g.user_id})['like_id']
-            if post_id in like_id:
+
+            if user_sel in user_info['like_id']: #선택한 헬루가 스크랩되었는지 체크
                 like_status = True
             else:
                 like_status = False
-            return render_template('health.html', health=find_post, like_status = like_status, user_id=g.user_id)
+
+            sel_status = True
+
+            return render_template('health.html', health=find_post, user_sel=user_sel, like_status = like_status, sel_status = sel_status)
+        # 공유된 헬루(내가 쓴 헬루 포함)
+        #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
+        else:
+            find_post = db.post.find_one({'post_id': post_id}) #post_id에 해당되는 post데이터 가져오기
+            user_info = db.user.find_one({'user_id' : g.user_id})
+            like_id = user_info['like_id'] #로그인한 user_id의 like_id 가져오기
+
+            if post_id in like_id: #선택한 헬루가 스크랩되었는지 체크
+                like_status = True
+            else:
+                like_status = False
+
+            if post_id == user_info['sel_id']:
+                sel_status = True
+            else:
+                sel_status = False
+
+
+            return render_template('health.html', health=find_post, like_status = like_status, user_id=g.user_id, sel_status = sel_status)
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         flash('로그인 후 이용 가능합니다.')
         return redirect('/user/login')
@@ -146,9 +164,14 @@ def scrap():
     try:
         user_id = g.user_id
         post_id = request.form['post_id']
-        db.user.update_one({'user_id': user_id}, {'$push': {'like_id': post_id}})
-        db.post.update_one({'post_id' : post_id}, {'$inc' : {'likes' : 1}})
-        return jsonify({'result': 'success'})
+
+        post_data = db.post.find_one({'post_id' : post_id}, {'_id' : False})
+        if user_id == post_data['poster_id']:
+            return jsonify({'msg' : '본인의 헬루는 스크랩할 수 없습니다'})
+        else:
+            db.user.update_one({'user_id': user_id}, {'$push': {'like_id': post_id}})
+            db.post.update_one({'post_id' : post_id}, {'$inc' : {'likes' : 1}})
+            return jsonify({'result': 'success'})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 
@@ -156,11 +179,10 @@ def scrap():
 # 선택 기능
 @health_bp.route('/select', methods=['POST'])
 def select():
-    token_receive = request.cookies.get('mytoken')
     try:
-        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        user_id = g.user_id
         post_id = request.form['post_id']
         db.user.update_one({'user_id': user_id}, {'$set': {'sel_id': post_id}})
-        return jsonify({'result': 'success'})
+        return jsonify({'msg': '선택되었습니다'})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')

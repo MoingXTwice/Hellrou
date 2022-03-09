@@ -59,7 +59,7 @@ function scrap(post_id) {
         url: '/health/scrap?post_id=' + post_id,
         data: {'post_id': post_id},
         success: function (response) {
-            console.log(response)
+            alert(response['msg'])
             window.location.reload()
         }
     })
@@ -71,6 +71,7 @@ function select(post_id) {
         url: '/health/select?post_id=' + post_id,
         data: {'post_id': post_id},
         success: function (response) {
+            alert(response['msg'])
             window.location.reload()
         }
     })
