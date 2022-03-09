@@ -167,6 +167,7 @@ def scrap():
             db.user.update_one({'user_id': user_id}, {'$push': {'like_id': post_id}})
             db.post.update_one({'post_id' : post_id}, {'$inc' : {'likes' : 1}})
             return jsonify({'msg': '스크랩되었습니다'})
+
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
 
