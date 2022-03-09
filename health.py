@@ -9,6 +9,7 @@ import uuid
 import os
 import certifi
 
+
 load_dotenv()
 
 mongo_host = os.getenv('MONGODB_HOST')
@@ -57,8 +58,12 @@ def detail_view():
 @health_bp.route('/post')
 def post():
     token_receive = request.cookies.get('mytoken')
-
-    return render_template('post.html')
+    try:
+        jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return render_template('post.html')
+    except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        flash('로그인 후 이용 가능합니다.')
+        return redirect('/user/login')
 
 # 헬루 등록 api
 @health_bp.route('/post', methods=['POST'])

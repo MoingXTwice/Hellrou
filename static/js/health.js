@@ -38,7 +38,6 @@ function share(post_id) {
         url: '/health/share?post_id=' + post_id,
         data: {'post_id': post_id},
         success: function (response) {
-            console.log(response)
             window.location.reload()
         }
     })
@@ -50,7 +49,6 @@ function share_cancel(post_id) {
         url: '/health/share_cancel?post_id=' + post_id,
         data: {'post_id': post_id},
         success: function (response) {
-            console.log(response)
             window.location.reload()
         }
     })
@@ -73,7 +71,6 @@ function select(post_id) {
         url: '/health/select?post_id=' + post_id,
         data: {'post_id': post_id},
         success: function (response) {
-            console.log(response)
             window.location.reload()
         }
     })
