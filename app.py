@@ -53,7 +53,8 @@ def home():
     else:
         post_list = list(db.post.find({'status': True}, {'_id': False}).sort('likes', -1))
 
-    return render_template('view.html', post_list = post_list, isLogin=g.auth)
+    return render_template('view.html', post_list = post_list)
+#   return render_template('view.html', post_list = post_list, isLogin=g.auth)
 
 # @app.route('/view_list', methods=['GET'])
 # def view_list():

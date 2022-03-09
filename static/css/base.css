@@ -44,7 +44,7 @@ nav:after {
     display: block;
 }
 .dn{
-    display:none;
+    display:none!important;
 }
 .inner {
     width: 95%;
