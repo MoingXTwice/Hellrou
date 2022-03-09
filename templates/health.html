@@ -17,9 +17,9 @@
             <h1>{{ health.title }}</h1>
         </div>
         <div>
-            {% if health.status == False %}
+            {% if health.status == False and health.poster_id == user_id %}
                 <button class="button" onclick="share('{{ health.post_id }}')">공유하기</button>
-            {% else %}
+            {% elif health.status == True and health.poster_id == user_id %}
                 <button class="button" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
             {% endif %}
         </div>

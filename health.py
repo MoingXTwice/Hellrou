@@ -44,7 +44,7 @@ def detail_view():
 
             sel_status = True
 
-            return render_template('health.html', health=find_post, user_sel=user_sel, like_status = like_status, sel_status = sel_status)
+            return render_template('health.html', health=find_post, user_sel=user_sel, like_status = like_status, sel_status = sel_status, user_id=g.user_id)
         # 공유된 헬루(내가 쓴 헬루 포함)
         #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
         else:
