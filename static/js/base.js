@@ -58,7 +58,7 @@ function YesScroll() {
 }
 
 function getData(offset, limit) {
-    console.log('getdata 들어왔따')
+    //console.log('getdata 들어왔따')
     $.ajax({
         type: 'GET',
         url: '/view_list',
