@@ -32,3 +32,49 @@ function post() {
     })
 }
 
+function share(post_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/health/share?post_id=' + post_id,
+        data: {'post_id': post_id},
+        success: function (response) {
+            console.log(response)
+            window.location.reload()
+        }
+    })
+}
+
+function share_cancel(post_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/health/share_cancel?post_id=' + post_id,
+        data: {'post_id': post_id},
+        success: function (response) {
+            console.log(response)
+            window.location.reload()
+        }
+    })
+}
+function scrap(post_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/health/scrap?post_id=' + post_id,
+        data: {'post_id': post_id},
+        success: function (response) {
+            console.log(response)
+            window.location.reload()
+        }
+    })
+}
+
+function select(post_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/health/select?post_id=' + post_id,
+        data: {'post_id': post_id},
+        success: function (response) {
+            console.log(response)
+            window.location.reload()
+        }
+    })
+}
