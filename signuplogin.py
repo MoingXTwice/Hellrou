@@ -78,6 +78,7 @@ def api_signup():
 
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
 
+
     db.user.insert_one(
         {'user_id': id_receive,
          'password': pw_hash,
