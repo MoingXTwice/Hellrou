@@ -28,7 +28,15 @@ def mypage():
     except:
         return redirect(url_for('user.login'))
 
-    post_list = list(db.post.find({'poster_id' : user_id}, {'_id' : False}))
+    type = request.args.get('type')
+    # cate = request.args.get('cate')
+    txt = request.args.get('txt')
+
+    if type == 'title':
+        post_list = list(db.post.find({'$and': [{'title': {'$regex': txt}}, {'poster_id': user_id}]}, {'_id': False}))
+    else:
+        post_list = list(db.post.find({'poster_id' : user_id}, {'_id' : False}))
+
     user_info = db.user.find_one({'user_id' : user_id}, {'_id' : False})
     like_id = user_info['like_id']
 
@@ -56,3 +64,5 @@ def del_like():
     db.user.update_one({'user_id' : user_id}, {'$pull':{'like_id' : int(post_id)}})
 
     return jsonify({'msg' : '스크랩한운동이 삭제되었습니다'})
+
+

@@ -4,9 +4,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 {% endblock %}
 {% block script %}
+    <script src="../static/js/mypage.js"></script>
     <script>
         $(document).ready(function () {
-
             $(".tab_cont > div").hide();
             $("#mypage-list").show();
             $(".tab_title li").click(function () {
@@ -62,7 +62,7 @@
                             <span class="list_func">
                                     <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
                                     <button class="btn btn-danger"
-                                            onclick="del_like({{ like.post_id }}, {{ like.poster_id }})">삭제</button>
+                                            onclick="del_like('{{ like.post_id }}', '{{ like.poster_id }}')">삭제</button>
                             </span>
                         </div>
                         {% endfor %}
