@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, session, redirect, url_for, Blueprint
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for, Blueprint, g
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -48,11 +48,14 @@ def home():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
-
 @user_bp.route('/login')
 def login():
-    msg = request.args.get("msg")
-    return render_template('login.html', msg=msg)
+    if g.auth == True:
+        # msg = request.args.get("msg")
+        return redirect('/') #로그인 true시 메인페이지로 리다이렉트
+    else:
+        return render_template('login.html') #로그인 false시 로그인페이지로 렌더
+
 
 
 @user_bp.route('/signup')
@@ -72,17 +75,19 @@ def api_signup():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
+    mass_receive = request.form['mass_give']        #TODO mass, str, funct 배열로 db에 저장할 것.
+    str_receive = request.form['str_give']          #TODO mass, str, funct 배열로 db에 저장할 것.
+    funct_receive = request.form['funct_give']      #TODO mass, str, funct 배열로 db에 저장할 것.
     selprgm_receive = request.form['selprgm_give']
     [] = request.form['scrprgm_give']
 
-
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-
 
     db.user.insert_one(
         {'user_id': id_receive,
          'password': pw_hash,
          'nick': nickname_receive,
+         'favor': [mass_receive, str_receive, funct_receive], #TODO mass, str, funct 배열로 db에 저장할 것.
          'sel_id': selprgm_receive,
          'like_id': []}
     )
