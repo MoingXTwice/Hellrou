@@ -62,15 +62,11 @@
             </tr>
             </tbody>
         </table>
-        <div class="columns">
-            <div class="column">
-                <h1>운동 프로그램 실행 방법</h1>
-            </div>
+        <div class="field-label is-normal process-title">
+            <h1 class="title">{{ health.title }}</h1>
         </div>
-        <div class="columns">
-            <div class="column">
-                {{ health.process }}
-            </div>
+        <div class="box process-content">
+            {{ health.process }}
         </div>
     {% endif %}
 {% endblock %}

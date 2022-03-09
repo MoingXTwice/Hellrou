@@ -12,7 +12,7 @@ from mypage import mypage_bp
 from signuplogin import user_bp
 
 app = Flask(__name__)
-#app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # 환경변수 값 불러오기
 load_dotenv()
