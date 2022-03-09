@@ -31,8 +31,12 @@
             {% endif %}
         </div>
         <div>
+        {% if sel_status == False %}
             <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
+        {% else %}
+            <button class="button">선택됨</button>
         </div>
+        {% endif %}
 
         <table class="table is-bordered is-striped">
             <thead>
