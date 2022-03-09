@@ -24,19 +24,23 @@
             {% endif %}
         </div>
         <div>
-            {% if like_status == False %}
+            {% if like_status == False and user_id != ''%}
                 <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
-            {% else %}
+            {% elif like_status == False and user_id == '' %}
+
+            {% elif like_status == True and user_id != '' %}
                 <button class="button" onclick="del_like('{{ health.post_id }}')">스크랩취소</button>
             {% endif %}
         </div>
         <div>
-        {% if sel_status == False %}
+        {% if sel_status == False and user_id != '' %}
             <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
-        {% else %}
+        {% elif sel_status == True and user_id != '' %}
             <button class="button">선택됨</button>
-        </div>
+        {% elif user_id == '' %}
         {% endif %}
+        </div>
+
 
         <table class="table is-bordered is-striped">
             <thead>

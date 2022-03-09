@@ -50,21 +50,26 @@ def detail_view():
         #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
         else:
             find_post = db.post.find_one({'post_id': post_id}) #post_id에 해당되는 post데이터 가져오기
-            user_info = db.user.find_one({'user_id' : g.user_id})
-            like_id = user_info['like_id'] #로그인한 user_id의 like_id 가져오기
+            if g.auth:
+                user_id = g.user_id
+                user_info = db.user.find_one({'user_id' : user_id})
+                like_id = user_info['like_id']  # 로그인한 user_id의 like_id 가져오기
 
-            if post_id in like_id: #선택한 헬루가 스크랩되었는지 체크
-                like_status = True
+                if post_id in like_id:  # 선택한 헬루가 스크랩되었는지 체크
+                    like_status = True
+                else:
+                    like_status = False
+
+                if post_id == user_info['sel_id']:  # 선택한 헬루가 로그인된 유저에게 선택되었는지 체크
+                    sel_status = True
+                else:
+                    sel_status = False
             else:
+                user_id = ''
                 like_status = False
-
-            if post_id == user_info['sel_id']: #선택한 헬루가 로그인된 유저에게 선택되었는지 체크
-                sel_status = True
-            else:
                 sel_status = False
 
-
-            return render_template('health.html', health=find_post, like_status = like_status, user_id=g.user_id, sel_status = sel_status)
+            return render_template('health.html', health=find_post, like_status = like_status, user_id=user_id, sel_status = sel_status)
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         flash('로그인 후 이용 가능합니다.')
         return redirect('/user/login')
