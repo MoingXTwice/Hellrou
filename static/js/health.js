@@ -10,6 +10,23 @@ function post() {
     let day6 = $('#day6').val()
     let day7 = $('#day7').val()
 
+    if (title == "") {
+        alert('운동 명을 입력해주세요.')
+        return;
+    } else if (title.length > 30) {
+        alert('운동 명은 30자까지 입력 가능합니다.')
+        return;
+    } else if (desc == "") {
+        alert('운동 설명을 입력해주세요.')
+        return;
+    } else if (desc.length > 30) {
+        alert('운동 설명은 30자까지 입력 가능합니다.')
+        return;
+    } else if (process == "") {
+        alert('운동 프로그램 실행 방법을 입력해주세요.')
+        return;
+    }
+
     $.ajax({
         type: "POST",
         url: "/health/post",
@@ -31,7 +48,7 @@ function post() {
             window.location.href = '/health?post_id=' + post_id
         }
 
-    })
+    });
 }
 
 function share(post_id) {
