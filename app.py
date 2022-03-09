@@ -59,7 +59,7 @@ def home():
 def view_list():
     offset = int(request.args.get('offset'))
     limit = int(request.args.get('limit'))
-    post_list = list(db.post.find({'status':True},{'_id': False}).skip(offset).limit(limit))
+    post_list = list(db.post.find({'status':True},{'_id': False}).sort('likes', -1).skip(offset).limit(limit))
     return jsonify({"post_list" : post_list})
 
 if __name__ == '__main__':
