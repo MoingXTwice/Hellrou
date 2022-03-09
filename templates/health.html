@@ -6,30 +6,49 @@
 {% endblock %}
 {% block script %}
     <script src="../static/js/health.js"></script>
+    <script src="../static/js/mypage.js"></script>
 {% endblock %}
 
 {% block contents %}
     {% if user_sel == "" %}
         <h1>현재 루틴이 없습니다.</h1>
     {% else %}
-        <div class="field is-horizontal body-head">
-            <div class="field-label is-normal">
-                <h1 class="title">{{ health.title }}</h1>
-            </div>
 
-            <div>
-                {% if health.status == False %}
-                    <button class="button" onclick="share('{{ health.post_id }}')">공유하기</button>
-                {% else %}
-                    <button class="button" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
-                {% endif %}
-            </div>
-            <div>
+        <div class="field-label is-normal">
+            <h1 class="title">{{ health.title }}</h1>
+        </div>
+        <div>
+            {% if health.status == False %}
+                <button class="button" onclick="share('{{ health.post_id }}')">공유하기</button>
+            {% else %}
+                <button class="button" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
+            {% endif %}
+        </div>
+        <div>
+            {% if like_status == False %}
                 <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
-            </div>
-            <div>
-                <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
-            </div>
+            {% else %}
+                <button class="button" onclick="del_like('{{ health.post_id }}', '{{ user_id }}')">스크랩취소</button>
+            {% endif %}
+        </div>
+        <div>
+            <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
+        </div>
+
+
+        <div>
+            {% if health.status == False %}
+                <button class="button" onclick="share('{{ health.post_id }}')">공유하기</button>
+            {% else %}
+                <button class="button" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
+            {% endif %}
+        </div>
+        <div>
+            <button class="button" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
+        </div>
+        <div>
+            <button class="button" onclick="select('{{ health.post_id }}')">선택하기</button>
+        </div>
         </div>
         <table class="table is-bordered is-striped" style="border-radius: 5px">
             <thead>

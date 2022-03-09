@@ -18,11 +18,11 @@
 
 .mypage_container {
     position: absolute;
-    width : 80%;
-    height : 80%;
+    width : 100%;
+    height : 100%;
 
     border-radius: 61px;
-    padding : 100px;
+    padding-top : 100px;
 }
 .mypage_nav{
     display: flex;
@@ -60,13 +60,19 @@
 }
 .list_title{
     flex : 1;
-    display: flex;
-    justify-content: center;
+    min-width : 10vw;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .list_desc{
     flex : 2;
-    display: flex;
-    justify-content: center;
+    min-width : 15vw;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .list_likes{
     flex : 1;
@@ -74,7 +80,7 @@
     justify-content: center;
 }
 .list_date{
-    flex : 1;
+    flex : 2;
     display: flex;
     justify-content: center;
 }

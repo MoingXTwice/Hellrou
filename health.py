@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, redirect, flash
+from flask import Blueprint, render_template, jsonify, request, redirect, flash, g
 from pymongo import MongoClient
 from datetime import datetime, timedelta
 import pytz
@@ -41,7 +41,12 @@ def detail_view():
         #TODO 필요한 것 선택ID(user.sel_id),스크랩상태(user.like_id) , 공유상태(post.status)
         else:
             find_post = db.post.find_one({'post_id': post_id})
-            return render_template('health.html', health=find_post)
+            like_id = db.user.find_one({'user_id' : g.user_id})['like_id']
+            if post_id in like_id:
+                like_status = True
+            else:
+                like_status = False
+            return render_template('health.html', health=find_post, like_status = like_status, user_id=g.user_id)
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         flash('로그인 후 이용 가능합니다.')
         return redirect('/user/login')
@@ -128,7 +133,7 @@ def share():
 def share_cancel():
     token_receive = request.cookies.get('mytoken')
     try:
-        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         post_id = request.form['post_id']
         db.post.update_one({'post_id': post_id}, {'$set': {'status': False}})
         return jsonify({'result': 'success'})
@@ -138,11 +143,11 @@ def share_cancel():
 # 스크랩 기능
 @health_bp.route('/scrap', methods=['POST'])
 def scrap():
-    token_receive = request.cookies.get('mytoken')
     try:
-        user_id = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])['id']
+        user_id = g.user_id
         post_id = request.form['post_id']
         db.user.update_one({'user_id': user_id}, {'$push': {'like_id': post_id}})
+        db.post.update_one({'post_id' : post_id}, {'$inc' : {'likes' : 1}})
         return jsonify({'result': 'success'})
     except(jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect('/user/login')
