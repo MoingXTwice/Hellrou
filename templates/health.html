@@ -10,73 +10,78 @@
 {% endblock %}
 
 {% block contents %}
-    {% if user_sel == "" %} {# 유저가 선택한 루틴이 없으면 #}
-        <h1>현재 루틴이 없습니다.</h1>
-    {% else %} {# 선택한 루틴이 있으면 #}
-        <div class="inner">
-        <div class="field-label is-normal">
-            <h1 class="title">{{ health.title }}</h1>
-        </div>
-        <div class="mybtns">
-            <div>
-                {% if sel_status == False and user_id != '' %} {# 선택되어있지 않고 유저아이디가 있으면 #}
-                    <button class="button mybtn" onclick="select('{{ health.post_id }}')">선택하기</button>
-                {% elif sel_status == True and user_id != '' %} {# 선택되어있고 유저아이디가 있으면 #}
-                    <button class="button mybtn" title="Disabled button" disabled>선택됨</button>
-                {% elif user_id == '' %}{# 유저아이디가 없으면 버튼을 노출시키지 않는다. #}
-                {% endif %}
+    <div class="inner">
+        {% if user_sel == "" %} {# 유저가 선택한 루틴이 없으면 #}
+            <div class="no_hellrou">
+                <h1>현재 루틴이 없습니다.</h1>
             </div>
-            <div>
-                {% if like_status == False and user_id != '' %} {# 좋아요(스크랩)이 되어있지않고 유저 아이디가 있으면 #}
-                    <button class="button mybtn" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
-                {% elif like_status == False and user_id == '' %} {# 좋아요(스크랩)이 되어있지않고 유저 아이디가 없으면 버튼을 노출시키지 않는다. #}
+        {% else %} {# 선택한 루틴이 있으면 #}
 
-                {% elif like_status == True and user_id != '' %} {# 좋아요(스크랩)이 되어있고 유저 아이디가 있으면 #}
-                    <button class="button mybtn" onclick="del_like('{{ health.post_id }}')">스크랩취소</button>
-                {% endif %}
+            <div class="field-label is-normal">
+                <h1 class="title">{{ health.title }}</h1>
             </div>
-            <div>
-                {% if health.status == False and health.poster_id == user_id %} {# 공유 되어있지않고 유저 아이디가 글쓴 아이디와 같으면 #}
-                    <button class="button mybtn is-success" onclick="share('{{ health.post_id }}')">공유하기</button>
-                {% elif health.status == True and health.poster_id == user_id %} {# 공유 되고 유저 아이디가 글쓴 아이디와 같으면 #}
-                    <button class="button mybtn is-warning" onclick="share_cancel('{{ health.post_id }}')">공유취소</button>
-                {% endif %}
-            </div>
-        </div>
+            <div class="mybtns">
+                <div>
+                    {% if sel_status == False and user_id != '' %} {# 선택되어있지 않고 유저아이디가 있으면 #}
+                        <button class="button mybtn" onclick="select('{{ health.post_id }}')">선택하기</button>
+                    {% elif sel_status == True and user_id != '' %} {# 선택되어있고 유저아이디가 있으면 #}
+                        <button class="button mybtn" title="Disabled button" disabled>선택됨</button>
+                        {% elif user_id == '' %}{# 유저아이디가 없으면 버튼을 노출시키지 않는다. #}
+                    {% endif %}
+                </div>
+                <div>
+                    {% if like_status == False and user_id != '' %} {# 좋아요(스크랩)이 되어있지않고 유저 아이디가 있으면 #}
+                        <button class="button mybtn" onclick="scrap('{{ health.post_id }}')">스크랩하기</button>
+                    {% elif like_status == False and user_id == '' %} {# 좋아요(스크랩)이 되어있지않고 유저 아이디가 없으면 버튼을 노출시키지 않는다. #}
 
-        <table class="table is-bordered is-striped">
-            <thead>
-            <tr>
-                <th>Day1</th>
-                <th>Day2</th>
-                <th>Day3</th>
-                <th>Day4</th>
-                <th>Day5</th>
-                <th>Day6</th>
-                <th>Day7</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{ health.day1 }}</td>
-                <td>{{ health.day2 }}</td>
-                <td>{{ health.day3 }}</td>
-                <td>{{ health.day4 }}</td>
-                <td>{{ health.day5 }}</td>
-                <td>{{ health.day6 }}</td>
-                <td>{{ health.day7 }}</td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="field-label is-normal process-title">
-            <h1 class="title">{{ health.desc }}</h1>
-        </div>
-        <div class="box process-content">
-            {{ health.process }}
-        </div>
-        {% if health.poster_id == user_id %} {# 유저 아이디와 글쓴 아이디가 같으면 수정하기 버튼을 노출한다. #}
-            <button class="button" onclick="location.href='/health/modify?post_id={{ health.post_id }}'">수정하기</button>
+                    {% elif like_status == True and user_id != '' %} {# 좋아요(스크랩)이 되어있고 유저 아이디가 있으면 #}
+                        <button class="button mybtn" onclick="del_like('{{ health.post_id }}')">스크랩취소</button>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if health.status == False and health.poster_id == user_id %} {# 공유 되어있지않고 유저 아이디가 글쓴 아이디와 같으면 #}
+                        <button class="button mybtn is-success" onclick="share('{{ health.post_id }}')">공유하기</button>
+                    {% elif health.status == True and health.poster_id == user_id %} {# 공유 되고 유저 아이디가 글쓴 아이디와 같으면 #}
+                        <button class="button mybtn is-warning" onclick="share_cancel('{{ health.post_id }}')">공유취소
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+
+            <table class="table is-bordered is-striped">
+                <thead>
+                <tr>
+                    <th>Day1</th>
+                    <th>Day2</th>
+                    <th>Day3</th>
+                    <th>Day4</th>
+                    <th>Day5</th>
+                    <th>Day6</th>
+                    <th>Day7</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ health.day1 }}</td>
+                    <td>{{ health.day2 }}</td>
+                    <td>{{ health.day3 }}</td>
+                    <td>{{ health.day4 }}</td>
+                    <td>{{ health.day5 }}</td>
+                    <td>{{ health.day6 }}</td>
+                    <td>{{ health.day7 }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="field-label is-normal process-title">
+                <h1 class="title">{{ health.desc }}</h1>
+            </div>
+            <div class="box process-content">
+                {{ health.process }}
+            </div>
+            {% if health.poster_id == user_id %} {# 유저 아이디와 글쓴 아이디가 같으면 수정하기 버튼을 노출한다. #}
+                <button class="button" onclick="location.href='/health/modify?post_id={{ health.post_id }}'">수정하기
+                </button>
+            {% endif %}
         {% endif %}
-    {% endif %}
-</div>
+    </div>
 {% endblock %}
