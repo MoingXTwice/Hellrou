@@ -43,9 +43,9 @@
 }
 .card_wrap .card .process {
     font-size: 15px;
-    height : 40%;
+    height : 39%;
     display:-webkit-box;
-    -webkit-line-clamp:7;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
