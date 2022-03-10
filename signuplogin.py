@@ -153,3 +153,13 @@ def api_valid():
         return jsonify({'result': 'fail', 'msg': '로그인 시간이 만료되었습니다.'})
     except jwt.exceptions.DecodeError:
         return jsonify({'result': 'fail', 'msg': '로그인 정보가 존재하지 않습니다.'})
+
+@user_bp.route('/api/idchk', methods=['POST'])
+def idchk():
+    input_id = request.form['id']
+    id_chk = db.user.find_one({'user_id' : input_id}, {'_id' : False})
+
+    if id_chk :
+        return jsonify({"msg": "이미 가입된 ID입니다.", 'status' : False})
+    else:
+        return jsonify({"msg" : "사용가능한 ID입니다", 'status' : True})
