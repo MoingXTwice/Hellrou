@@ -13,6 +13,7 @@
     {% if user_sel == "" %}
         <h1>현재 루틴이 없습니다.</h1>
     {% else %}
+        <div class="inner">
         <div class="field-label is-normal">
             <h1 class="title">{{ health.title }}</h1>
         </div>
@@ -77,4 +78,5 @@
             <button class="button" onclick="location.href='/health/modify?post_id={{ health.post_id }}'">수정하기</button>
         {% endif %}
     {% endif %}
+</div>
 {% endblock %}

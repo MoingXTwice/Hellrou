@@ -43,12 +43,12 @@
                                         <span class="list_likes">💖{{ post.likes }}</span>
                                         <span class="list_date">{{ post.datetime }}</span>
                                         <span class="list_func">
-                                    <button class="btn btn-primary" style="margin-right : 10px;">수정</button>
+                                    <button class="btn btn-primary" style="margin-right : 10px;"
+                                            onclick="javascript:event.stopPropagation(); location.href='/health/modify?post_id={{ post.post_id }}'">수정</button>
                                     <button class="btn btn-danger"
                                             onclick="javascript:event.stopPropagation(); del_post('{{ post.post_id }}')">삭제</button>
                                 </span>
                                     </div>
-
                                 {% endfor %}
                             {% else %}
                                 <div class="empty_list"><p>입력한 헬루가 없습니다</p></div>
