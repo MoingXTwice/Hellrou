@@ -1,5 +1,12 @@
 let idchk_status = false;
-let pwchk_status = false
+let pwchk_status = false;
+
+// 입력한 아이디 변경 시 중복체크 값 초기화
+$(document).ready(function(){
+    $("#user_id").change(function(){
+        idchk_status = false;
+    })
+});
 
 // 간단한 회원가입 함수입니다.
 // 아이디, 비밀번호, 닉네임을 받아 DB에 저장합니다.
@@ -77,7 +84,8 @@ function validId(){
             alert(response['msg'])
             if(response['status'] == true) {
                 $('#password').focus()
-                $('#user_id').prop("readonly", true)
+                //id 입력부분 변경시 중복체크값 초기화 때문에 주석처리
+                //$('#user_id').prop("readonly", true)
                 idchk_status = true
             } else if(response['status'] == false){
                 $('#user_id').val('')
