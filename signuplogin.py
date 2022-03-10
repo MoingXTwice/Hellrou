@@ -15,7 +15,7 @@ mongo_host = os.getenv('MONGODB_HOST')
 client = MongoClient(mongo_host, tlsCAFile=certifi.where())
 db = client.hellrou
 
-#Blueprint
+# Blueprint
 user_bp = Blueprint('user', __name__)
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
@@ -48,14 +48,14 @@ def home():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
+
 @user_bp.route('/login')
 def login():
     if g.auth == True:
         # msg = request.args.get("msg")
-        return redirect('/') #로그인 true시 메인페이지로 리다이렉트
+        return redirect('/')  # 로그인 true시 메인페이지로 리다이렉트
     else:
-        return render_template('login.html') #로그인 false시 로그인페이지로 렌더
-
+        return render_template('login.html')  # 로그인 false시 로그인페이지로 렌더
 
 
 @user_bp.route('/signup')
@@ -75,9 +75,9 @@ def api_signup():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     nickname_receive = request.form['nickname_give']
-    mass_receive = request.form['mass_give']        #TODO mass, str, funct 배열로 db에 저장할 것.
-    str_receive = request.form['str_give']          #TODO mass, str, funct 배열로 db에 저장할 것.
-    funct_receive = request.form['funct_give']      #TODO mass, str, funct 배열로 db에 저장할 것.
+    mass_receive = request.form['mass_give']  # TODO mass, str, funct 배열로 db에 저장할 것.
+    str_receive = request.form['str_give']  # TODO mass, str, funct 배열로 db에 저장할 것.
+    funct_receive = request.form['funct_give']  # TODO mass, str, funct 배열로 db에 저장할 것.
     selprgm_receive = request.form['selprgm_give']
     [] = request.form['scrprgm_give']
 
@@ -87,12 +87,19 @@ def api_signup():
         {'user_id': id_receive,
          'password': pw_hash,
          'nick': nickname_receive,
-         'favor': [mass_receive, str_receive, funct_receive], #TODO mass, str, funct 배열로 db에 저장할 것.
+         'favor': [mass_receive, str_receive, funct_receive],  # TODO mass, str, funct 배열로 db에 저장할 것.
          'sel_id': selprgm_receive,
          'like_id': []}
     )
 
     return jsonify({'result': 'success'})
+
+
+@user_bp.route('/api/signup/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    exists = bool(db.user.find_one({"user_id": username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
 
 
 # [로그인 API]
