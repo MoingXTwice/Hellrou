@@ -1,18 +1,14 @@
 let idchk_status = false;
 let pwchk_status = false;
 
+
 function toggle_sign_up() {
     $("#btn-check-dup").toggleClass("is-hidden")
-
+//  $("#help-id").toggleClass("is-hidden")
     $("#help-password").toggleClass("is-hidden")
     $("#help-password2").toggleClass("is-hidden")
     $("#help-password2").toggleClass("is-hidden")
 }
-
-function toggle(){
-    $("#help-id").toggleClass("is-hidden")
-}
-
 
 // 입력한 아이디 변경 시 중복체크 값 초기화
 $(document).ready(function(){
@@ -94,14 +90,15 @@ function is_nickname(asValue) {
 
 function validId(){
     let input_id = $('#user_id').val()
-
+    console.log(input_id);
     if(input_id == '') {
         $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
         $("#user_id").focus()
         return
     }
+    console.log(is_nickname(input_id));
     if(!is_nickname(input_id)){
-        $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
+        $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("dn")
         $("#user_id").focus()
         return;
     }
@@ -113,10 +110,10 @@ function validId(){
         success: function (response) {
             if (response['status'] == true) {
                 $('#password').focus()
-                $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-hidden").removeClass("is-danger").addClass("is-success")
+                $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success").removeClass("dn")
                 idchk_status = true
             } else if (response['status'] == false) {
-                $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
+                $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger").removeClass("dn")
                 $("#user_id").focus()
             }
             $("#help-id").removeClass("is-loading")
