@@ -70,6 +70,15 @@ textarea {
     align-items: center;
     justify-content: center;
 }
+
 .post-btn > button {
     margin-right: 30px;
+}
+
+.no_hellrou {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
 }
