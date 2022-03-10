@@ -3,6 +3,7 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 {% endblock %}
 
 {% block script %}
@@ -16,12 +17,13 @@
         <div class="creatBox">
             <p>아이디</p>
             <input type="text" class="userId" id="user_id" placeholder="아이디를 입력하세요.">
-            <button class="btn valid" onclick="validId()">중복체크</button>
-            <p>비밀번호</p>
-            <input type="password" class="userPw" id="password" placeholder="●●●●●●●">
-            <p>비밀번호 확인</p>
+            <div id="btn-check-dup" class="control">
+                <button class="button is-hellrou" onclick="validId();toggle();">중복확인</button>
+            </div>
+            <p id="help-id" class="help is-hidden">아이디는 2-18자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
+            <p id="help-id-login" class="help is-danger"></p>
+            <input type="password" class="userPw" id="password" placeholder="비밀번호를 입력하세요.">
             <input type="password" class="userPwCfm" id="passwordCfm" placeholder="비번을 다시 입력하세요.">
-            <p>닉네임</p>
             <input type="text" class="nickname" id="nick" placeholder="닉네임을 입력하세요.">
             <div class="favPrgm" id="favorite">
                 <p>선호하는 운동프로그램 (예정)</p>

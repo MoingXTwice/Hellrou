@@ -1,6 +1,19 @@
 let idchk_status = false;
 let pwchk_status = false;
 
+function toggle_sign_up() {
+    $("#btn-check-dup").toggleClass("is-hidden")
+
+    $("#help-password").toggleClass("is-hidden")
+    $("#help-password2").toggleClass("is-hidden")
+    $("#help-password2").toggleClass("is-hidden")
+}
+
+function toggle(){
+    $("#help-id").toggleClass("is-hidden")
+}
+
+
 // 입력한 아이디 변경 시 중복체크 값 초기화
 $(document).ready(function(){
     $("#user_id").change(function(){
@@ -70,30 +83,43 @@ function login() {
     })
 }
 
+//(?=.*[a-zA-Z]):해당문자가 반드시 입력될 것.
+//[-a-zA-Z0-9_.]:해당문자 사용 사능.
+//{2,18}:최소 2자리에서 최대 18자리까지 사용 가능.
+function is_nickname(asValue) {
+    var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,18}$/;
+    return regExp.test(asValue);
+}
+
+
 function validId(){
     let input_id = $('#user_id').val()
 
-    if(input_id == ''){
-        alert("ID를 입력해주세요")
-    } else{
-        $.ajax({
-        type : "POST",
-        url : "/user/api/idchk",
-        data : {"id" : input_id},
-        success : function(response){
-            alert(response['msg'])
-            if(response['status'] == true) {
-                $('#password').focus()
-                //id 입력부분 변경시 중복체크값 초기화 때문에 주석처리
-                //$('#user_id').prop("readonly", true)
-                idchk_status = true
-            } else if(response['status'] == false){
-                $('#user_id').val('')
-                $('#user_id').focus()
-            }
-        }
-        })
+    if(input_id == '') {
+        $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+        $("#user_id").focus()
+        return
     }
-
-
+    if(!is_nickname(input_id)){
+        $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
+        $("#user_id").focus()
+        return;
+    }
+    $("#help-id").addClass("is-loading")
+    $.ajax({
+        type: "POST",
+        url: "/user/api/idchk",
+        data: {"id": input_id},
+        success: function (response) {
+            if (response['status'] == true) {
+                $('#password').focus()
+                $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-hidden").removeClass("is-danger").addClass("is-success")
+                idchk_status = true
+            } else if (response['status'] == false) {
+                $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
+                $("#user_id").focus()
+            }
+            $("#help-id").removeClass("is-loading")
+        }
+    })
 }
