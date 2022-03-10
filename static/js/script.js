@@ -1,6 +1,18 @@
+let idchk_status = false;
+let pwchk_status = false
+
 // 간단한 회원가입 함수입니다.
 // 아이디, 비밀번호, 닉네임을 받아 DB에 저장합니다.
 function signup() {
+    if($('#password').val() === $('#passwordCfm').val()) pwchk_status = true
+
+    if(idchk_status == false){
+        alert("ID중복체크가 완료되지 않았습니다")
+        return false;
+    }else if(pwchk_status == false){
+        alert("입력한 비밀번호가 같지 않습니다")
+        return false;
+    }
     $.ajax({
         type: "POST",
         url: "/user/api/signup",
@@ -49,4 +61,31 @@ function login() {
             }
         }
     })
+}
+
+function validId(){
+    let input_id = $('#user_id').val()
+
+    if(input_id == ''){
+        alert("ID를 입력해주세요")
+    } else{
+        $.ajax({
+        type : "POST",
+        url : "/user/api/idchk",
+        data : {"id" : input_id},
+        success : function(response){
+            alert(response['msg'])
+            if(response['status'] == true) {
+                $('#password').focus()
+                $('#user_id').prop("readonly", true)
+                idchk_status = true
+            } else if(response['status'] == false){
+                $('#user_id').val('')
+                $('#user_id').focus()
+            }
+        }
+        })
+    }
+
+
 }
