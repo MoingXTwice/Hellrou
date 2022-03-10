@@ -36,18 +36,6 @@ import hashlib
 #################################
 ##  HTML을 주는 부분             ##
 #################################
-@user_bp.route('/')
-def home():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.user.find_one({"user_id": payload['id']})
-        return render_template('main.html', nickname=user_info["nick"])
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
-
 @user_bp.route('/login')
 def login():
     if g.auth == True:
@@ -56,12 +44,9 @@ def login():
     else:
         return render_template('login.html') #로그인 false시 로그인페이지로 렌더
 
-
-
 @user_bp.route('/signup')
 def singup():
     return render_template('signup.html')
-
 
 #################################
 ##  로그인을 위한 API            ##
